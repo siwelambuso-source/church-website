@@ -40,7 +40,7 @@
       position: relative;
     }
 
-    /* Church Logo Watermark - Full Background (Uses uploaded logo) */
+    /* Church Logo Watermark - LARGER and FEWER in number */
     body::before {
       content: "";
       position: fixed;
@@ -48,13 +48,59 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: var(--watermark-image, url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cpath fill="rgba(220,38,38,0.03)" d="M50 10L65 35L85 40L70 60L75 85L50 75L25 85L30 60L15 40L35 35L50 10Z"/%3E%3C/svg%3E'));
-      background-repeat: repeat;
-      background-size: 80px;
-      background-position: center;
-      opacity: 0.12;
+      background-image: var(--watermark-image, url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cpath fill="rgba(220,38,38,0.08)" d="M50 10L65 35L85 40L70 60L75 85L50 75L25 85L30 60L15 40L35 35L50 10Z"/%3E%3C/svg%3E'));
+      background-repeat: no-repeat;
+      background-size: 280px 280px;
+      background-position: 10% 15%, 85% 30%, 50% 75%, 15% 85%, 90% 80%;
+      opacity: 0.2;
       pointer-events: none;
       z-index: 0;
+    }
+    
+    /* Multiple positioned watermarks - larger and fewer */
+    .watermark-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    
+    .watermark {
+      position: absolute;
+      opacity: 0.12;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .watermark i {
+      font-size: 180px;
+      color: rgba(220, 38, 38, 0.2);
+      filter: blur(1px);
+    }
+    
+    /* Position each watermark strategically */
+    .watermark-1 { top: 8%; left: 5%; transform: rotate(-12deg); }
+    .watermark-2 { top: 25%; right: 3%; transform: rotate(8deg); }
+    .watermark-3 { bottom: 15%; left: 8%; transform: rotate(5deg); }
+    .watermark-4 { bottom: 30%; right: 10%; transform: rotate(-5deg); }
+    .watermark-5 { top: 55%; left: 45%; transform: translate(-50%, -50%) rotate(15deg); opacity: 0.18; }
+    .watermark-6 { top: 70%; right: 20%; transform: rotate(-8deg); }
+    .watermark-7 { bottom: 5%; left: 40%; transform: rotate(3deg); }
+    
+    /* If custom logo is uploaded, use it for watermarks */
+    .custom-watermark {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0.15;
+      pointer-events: none;
     }
 
     .hero {
@@ -407,6 +453,7 @@
       .logo-area { padding: 5px 15px 5px 10px; }
       .church-logo { width: 45px; height: 45px; }
       .difference-section { padding: 30px 20px; }
+      .watermark i { font-size: 100px; }
     }
     .success-message { display: none; background: #10b981; color: white; padding: 12px; border-radius: 12px; margin-top: 16px; text-align: center; }
     .error-message { display: none; background: #ef4444; color: white; padding: 12px; border-radius: 12px; margin-top: 16px; text-align: center; }
@@ -418,6 +465,17 @@
   </style>
 </head>
 <body>
+
+<!-- Watermark Container with Larger, Fewer Watermarks -->
+<div class="watermark-container" id="watermarkContainer">
+  <div class="watermark watermark-1"><i class="fas fa-cross"></i></div>
+  <div class="watermark watermark-2"><i class="fas fa-cross"></i></div>
+  <div class="watermark watermark-3"><i class="fas fa-cross"></i></div>
+  <div class="watermark watermark-4"><i class="fas fa-cross"></i></div>
+  <div class="watermark watermark-5"><i class="fas fa-cross"></i></div>
+  <div class="watermark watermark-6"><i class="fas fa-cross"></i></div>
+  <div class="watermark watermark-7"><i class="fas fa-cross"></i></div>
+</div>
 
 <div class="hero" id="hero">
   <div class="cross-bg"><i class="fas fa-cross"></i></div>
@@ -496,10 +554,10 @@
       <!-- Logo Upload Section -->
       <div class="admin-section">
         <h3><i class="fas fa-image"></i> Upload Church Logo</h3>
-        <p style="font-size:0.8rem; color:#64748b;">Upload your church logo. It will appear in the header and as a watermark background.</p>
+        <p style="font-size:0.8rem; color:#64748b;">Upload your church logo. It will appear in the header and as larger watermark backgrounds.</p>
         <input type="file" id="logoUpload" class="logo-upload-input" accept="image/*">
         <button id="uploadLogoBtn" class="upload-btn">Upload Logo</button>
-        <div id="logoUploadSuccess" class="success-message" style="display:none; margin-top:10px;">Logo uploaded successfully!</div>
+        <div id="logoUploadSuccess" class="success-message" style="display:none; margin-top:10px;">Logo uploaded successfully! Watermarks updated.</div>
       </div>
       
       <!-- Statistics Section -->
@@ -742,8 +800,34 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
   AOS.init({ duration: 600, once: true });
-
-  // [All the JavaScript functionality remains the same as before]
+  
+  // Function to update watermarks with uploaded logo
+  function updateWatermarksWithLogo(logoDataUrl) {
+    const watermarks = document.querySelectorAll('.watermark');
+    watermarks.forEach(watermark => {
+      // Replace icon with image
+      watermark.innerHTML = `<img src="${logoDataUrl}" style="width: 100%; height: 100%; object-fit: contain; opacity: 0.5;">`;
+      watermark.style.background = 'none';
+    });
+  }
+  
+  // Function to reset watermarks to default cross
+  function resetWatermarks() {
+    const watermarks = document.querySelectorAll('.watermark');
+    watermarks.forEach(watermark => {
+      watermark.innerHTML = '<i class="fas fa-cross"></i>';
+    });
+  }
+  
+  // Load saved logo for watermarks
+  const savedLogo = localStorage.getItem('churchLogo');
+  if(savedLogo) {
+    const logoContainer = document.getElementById('logoContainer');
+    logoContainer.innerHTML = `<img src="${savedLogo}" alt="Church Logo">`;
+    updateWatermarksWithLogo(savedLogo);
+  }
+  
+  // [Rest of the JavaScript remains the same...]
   const ADMIN_PASSWORD = "admin2026";
   let isAdminAuthenticated = false;
   
@@ -772,12 +856,6 @@
   const logoContainer = document.getElementById('logoContainer');
   const logoUploadSuccess = document.getElementById('logoUploadSuccess');
   
-  const savedLogo = localStorage.getItem('churchLogo');
-  if(savedLogo && logoContainer) {
-    logoContainer.innerHTML = `<img src="${savedLogo}" alt="Church Logo">`;
-    document.body.style.setProperty('--watermark-image', `url("${savedLogo}")`);
-  }
-  
   if(uploadLogoBtn) {
     uploadLogoBtn.addEventListener('click', () => {
       if(!isAdminAuthenticated) {
@@ -791,7 +869,7 @@
           const logoData = ev.target.result;
           logoContainer.innerHTML = `<img src="${logoData}" alt="Church Logo">`;
           localStorage.setItem('churchLogo', logoData);
-          document.body.style.setProperty('--watermark-image', `url("${logoData}")`);
+          updateWatermarksWithLogo(logoData);
           logoUploadSuccess.style.display = 'block';
           setTimeout(() => { logoUploadSuccess.style.display = 'none'; }, 3000);
         };
@@ -881,6 +959,7 @@
     });
   }
   
+  // Continue with remaining functions (bubbles, menu, verses, etc.)
   function createBubble() {
     const bubble = document.createElement('div');
     bubble.classList.add('bubble');
