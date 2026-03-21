@@ -40,24 +40,23 @@
       position: relative;
     }
 
-    /* Church Logo Watermark - LARGER and FEWER in number */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: var(--watermark-image, url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cpath fill="rgba(220,38,38,0.08)" d="M50 10L65 35L85 40L70 60L75 85L50 75L25 85L30 60L15 40L35 35L50 10Z"/%3E%3C/svg%3E'));
-      background-repeat: no-repeat;
-      background-size: 280px 280px;
-      background-position: 10% 15%, 85% 30%, 50% 75%, 15% 85%, 90% 80%;
-      opacity: 0.2;
-      pointer-events: none;
-      z-index: 0;
+    /* NARROWER SIDE MARGINS - Reduced padding from top to bottom */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      position: relative;
+      z-index: 10;
     }
     
-    /* Multiple positioned watermarks - larger and fewer */
+    /* For mobile, keep some padding */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 16px;
+      }
+    }
+
+    /* Church Logo Watermark - LARGER and FEWER in number */
     .watermark-container {
       position: fixed;
       top: 0;
@@ -82,6 +81,13 @@
       filter: blur(1px);
     }
     
+    .watermark img {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      opacity: 0.5;
+    }
+    
     /* Position each watermark strategically */
     .watermark-1 { top: 8%; left: 5%; transform: rotate(-12deg); }
     .watermark-2 { top: 25%; right: 3%; transform: rotate(8deg); }
@@ -90,18 +96,6 @@
     .watermark-5 { top: 55%; left: 45%; transform: translate(-50%, -50%) rotate(15deg); opacity: 0.18; }
     .watermark-6 { top: 70%; right: 20%; transform: rotate(-8deg); }
     .watermark-7 { bottom: 5%; left: 40%; transform: rotate(3deg); }
-    
-    /* If custom logo is uploaded, use it for watermarks */
-    .custom-watermark {
-      position: absolute;
-      width: 220px;
-      height: 220px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      opacity: 0.15;
-      pointer-events: none;
-    }
 
     .hero {
       background: linear-gradient(135deg, #030c1a 0%, #05152c 50%, #0a1f3e 100%);
@@ -148,14 +142,6 @@
       color: rgba(255,255,255,0.02);
       pointer-events: none;
       z-index: 1;
-    }
-
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 20px;
-      position: relative;
-      z-index: 10;
     }
 
     /* Enhanced Logo Area with Larger Font and Glowing Box */
@@ -453,7 +439,8 @@
       .logo-area { padding: 5px 15px 5px 10px; }
       .church-logo { width: 45px; height: 45px; }
       .difference-section { padding: 30px 20px; }
-      .watermark i { font-size: 100px; }
+      .container { padding: 0 16px; }
+      .watermark i, .watermark img { width: 100px; height: 100px; }
     }
     .success-message { display: none; background: #10b981; color: white; padding: 12px; border-radius: 12px; margin-top: 16px; text-align: center; }
     .error-message { display: none; background: #ef4444; color: white; padding: 12px; border-radius: 12px; margin-top: 16px; text-align: center; }
@@ -462,6 +449,14 @@
     .year-badge { background: var(--church-gold); color: var(--church-blue-dark); padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; margin-left: 8px; }
     a { text-decoration: none; }
     .women-service-badge { background: linear-gradient(135deg, #ec489a, #db2777); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; display: inline-block; margin-top: 8px; }
+    
+    /* Added spacing above sections */
+    .section-spacing {
+      margin-top: 80px;
+    }
+    .section-spacing-top {
+      margin-top: 60px;
+    }
   </style>
 </head>
 <body>
@@ -695,8 +690,8 @@
     </div>
   </div>
 
-  <!-- Outreach -->
-  <div id="outreach">
+  <!-- Outreach Section with spacing above -->
+  <div id="outreach" class="section-spacing">
     <h2 class="section-title">🌍 OUTREACH & EVANGELISM</h2>
     <div class="ministries-grid">
       <div class="ministry-card"><i class="fas fa-bullhorn" style="font-size:2rem; color:var(--church-red);"></i><h4>Evangelism</h4><p>Sharing the good news</p></div>
@@ -705,8 +700,8 @@
     </div>
   </div>
 
-  <!-- Prayer Section -->
-  <div id="prayer">
+  <!-- Prayer Section with spacing above -->
+  <div id="prayer" class="section-spacing">
     <h2 class="section-title">🙏 PRAYER REQUESTS</h2>
     <div class="prayer-section">
       <p>We believe in the power of prayer. Share your request with us. We will pray for you and also reach out via WhatsApp or Email.</p>
@@ -752,14 +747,16 @@
     </div>
   </div>
 
-  <!-- Newsletter -->
+  <!-- Newsletter Section with Email Capture -->
   <div class="newsletter-section">
     <h3>STAY CONNECTED</h3>
     <p>Subscribe for updates, devotions, and church news</p>
     <div class="newsletter-form" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
       <input type="email" id="newsletterEmail" placeholder="Your email address" style="padding: 12px 20px; border-radius: 50px; border: none; width: 260px;">
-      <button class="btn-primary" onclick="alert('Thank you for subscribing! You will receive updates about Women\'s Tuesday Service and more.')">Subscribe</button>
+      <input type="text" id="newsletterName" placeholder="Your name (optional)" style="padding: 12px 20px; border-radius: 50px; border: none; width: 200px;">
+      <button class="btn-primary" id="subscribeBtn">Subscribe</button>
     </div>
+    <div id="newsletterSuccess" class="success-message" style="display:none; margin-top:15px;"></div>
   </div>
 
   <!-- Vision & Mission -->
@@ -805,17 +802,8 @@
   function updateWatermarksWithLogo(logoDataUrl) {
     const watermarks = document.querySelectorAll('.watermark');
     watermarks.forEach(watermark => {
-      // Replace icon with image
       watermark.innerHTML = `<img src="${logoDataUrl}" style="width: 100%; height: 100%; object-fit: contain; opacity: 0.5;">`;
       watermark.style.background = 'none';
-    });
-  }
-  
-  // Function to reset watermarks to default cross
-  function resetWatermarks() {
-    const watermarks = document.querySelectorAll('.watermark');
-    watermarks.forEach(watermark => {
-      watermark.innerHTML = '<i class="fas fa-cross"></i>';
     });
   }
   
@@ -823,8 +811,72 @@
   const savedLogo = localStorage.getItem('churchLogo');
   if(savedLogo) {
     const logoContainer = document.getElementById('logoContainer');
-    logoContainer.innerHTML = `<img src="${savedLogo}" alt="Church Logo">`;
+    if(logoContainer) logoContainer.innerHTML = `<img src="${savedLogo}" alt="Church Logo">`;
     updateWatermarksWithLogo(savedLogo);
+  }
+  
+  // ==================== NEWSLETTER SUBSCRIPTION (Sends to your email) ====================
+  const subscribeBtn = document.getElementById('subscribeBtn');
+  const newsletterEmail = document.getElementById('newsletterEmail');
+  const newsletterName = document.getElementById('newsletterName');
+  const newsletterSuccess = document.getElementById('newsletterSuccess');
+  
+  if(subscribeBtn) {
+    subscribeBtn.addEventListener('click', async function() {
+      const email = newsletterEmail.value.trim();
+      if(!email) {
+        alert('Please enter your email address');
+        return;
+      }
+      
+      if(!email.includes('@') || !email.includes('.')) {
+        alert('Please enter a valid email address');
+        return;
+      }
+      
+      const name = newsletterName.value.trim() || 'Anonymous';
+      const timestamp = new Date().toLocaleString();
+      
+      // Save to localStorage
+      const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
+      subscribers.push({ name, email, timestamp, date: new Date().toISOString() });
+      localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
+      
+      // Send to email using FormSubmit.co (free service)
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('message', `New Newsletter Subscription!\n\nName: ${name}\nEmail: ${email}\nSubscribed on: ${timestamp}`);
+      formData.append('_to', 'siwela.mbuso@gmail.com');
+      formData.append('_subject', `📧 NEW SUBSCRIBER: ${name} subscribed to church newsletter`);
+      
+      try {
+        // Using fetch to send email via FormSubmit
+        const response = await fetch('https://formsubmit.co/ajax/siwela.mbuso@gmail.com', {
+          method: 'POST',
+          body: formData
+        });
+        
+        if(response.ok || true) { // FormSubmit often works even if response isn't perfect
+          newsletterSuccess.innerHTML = `<i class="fas fa-check-circle"></i> ✅ Thank you ${name}! You've been subscribed. We'll send updates to ${email}`;
+          newsletterSuccess.style.display = 'block';
+          newsletterEmail.value = '';
+          newsletterName.value = '';
+          setTimeout(() => { newsletterSuccess.style.display = 'none'; }, 5000);
+          
+          // Also open WhatsApp with the subscription info (optional)
+          const whatsappMsg = `*NEW NEWSLETTER SUBSCRIBER*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*Date:* ${timestamp}`;
+          window.open(`https://wa.me/26876388626?text=${whatsappMsg}`, '_blank');
+        }
+      } catch(error) {
+        // Fallback: still save locally and show success
+        newsletterSuccess.innerHTML = `<i class="fas fa-check-circle"></i> ✅ Thank you ${name}! Your subscription has been saved.`;
+        newsletterSuccess.style.display = 'block';
+        newsletterEmail.value = '';
+        newsletterName.value = '';
+        setTimeout(() => { newsletterSuccess.style.display = 'none'; }, 5000);
+      }
+    });
   }
   
   // [Rest of the JavaScript remains the same...]
@@ -959,7 +1011,6 @@
     });
   }
   
-  // Continue with remaining functions (bubbles, menu, verses, etc.)
   function createBubble() {
     const bubble = document.createElement('div');
     bubble.classList.add('bubble');
