@@ -39,10 +39,6 @@
       position: relative;
     }
 
-    body::before {
-      display: none;
-    }
-
     .hero {
       background: linear-gradient(135deg, #0a1f3a 0%, #123456 50%, #1a3a5a 100%);
       color: white;
@@ -246,6 +242,7 @@
     .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 30px; background: linear-gradient(135deg, var(--church-blue), var(--church-red)); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; }
     .section-title::after { content: ''; display: block; width: 70px; height: 4px; background: linear-gradient(90deg, var(--church-red), var(--church-blue)); margin-top: 8px; border-radius: 4px; }
 
+    /* The Difference We Need Section */
     .difference-section {
       background: linear-gradient(135deg, var(--church-blue-dark), var(--church-blue));
       border-radius: 48px;
@@ -350,6 +347,81 @@
 
     .newsletter-section { background: linear-gradient(135deg, var(--church-blue), var(--church-red)); border-radius: 40px; padding: 40px; text-align: center; color: white; margin: 40px 0; position: relative; z-index: 5; }
 
+    /* Partner With Us Card */
+    .partner-card {
+      background: linear-gradient(135deg, #fef9e6 0%, #fff5e0 100%);
+      border-radius: 32px;
+      padding: 32px;
+      margin: 40px 0;
+      border: 1px solid rgba(251,191,36,0.3);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 5;
+    }
+    .partner-card h3 {
+      color: var(--church-blue);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .partner-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+    .bank-info {
+      background: white;
+      border-radius: 24px;
+      padding: 20px;
+      border-left: 4px solid var(--church-gold);
+    }
+    .bank-info h4 {
+      color: var(--church-red);
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+    .bank-detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .bank-detail-row strong {
+      color: var(--church-blue);
+    }
+    .mobile-money {
+      background: linear-gradient(135deg, #10b98115, #05966915);
+      border-left-color: #10b981;
+    }
+    .copy-btn {
+      background: var(--church-blue);
+      color: white;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .copy-btn:hover {
+      background: var(--church-red);
+    }
+    .partner-note {
+      background: var(--church-blue);
+      color: white;
+      border-radius: 20px;
+      padding: 15px;
+      margin-top: 25px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
     footer { background: linear-gradient(135deg, #0a1f3a, #123456); color: white; margin-top: 60px; padding: 50px 0 30px; position: relative; z-index: 5; }
     .footer-grid { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; }
     .social-links { display: flex; gap: 15px; margin-top: 15px; }
@@ -359,7 +431,7 @@
     .lightbox.active { display: flex; }
     .lightbox img { max-width: 90%; max-height: 90%; border-radius: 20px; }
 
-    /* Kingdom Impact Archives Styles */
+    /* Archives Styles */
     .archives-section {
       background: white;
       border-radius: 32px;
@@ -368,10 +440,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       display: none;
     }
-    .archives-section.show {
-      display: block;
-      animation: fadeSlideDown 0.5s ease;
-    }
+    .archives-section.show { display: block; animation: fadeSlideDown 0.5s ease; }
     .filter-buttons {
       display: flex;
       gap: 12px;
@@ -457,6 +526,7 @@
       .navbar { margin-top: 0; }
       .archive-item { flex-direction: column; text-align: center; }
       .archive-icon { width: auto; }
+      .bank-detail-row { flex-direction: column; align-items: flex-start; }
     }
     .success-message { display: none; background: #10b981; color: white; padding: 12px; border-radius: 12px; margin-top: 16px; text-align: center; }
     .error-message { display: none; background: #ef4444; color: white; padding: 12px; border-radius: 12px; margin-top: 16px; text-align: center; }
@@ -465,20 +535,15 @@
     .year-badge { background: var(--church-gold); color: var(--church-blue-dark); padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; margin-left: 8px; }
     a { text-decoration: none; }
     .women-service-badge { background: linear-gradient(135deg, #ec489a, #db2777); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; display: inline-block; margin-top: 8px; }
-    
-    .section-spacing {
-      margin-top: 80px;
-    }
+    .section-spacing { margin-top: 80px; }
   </style>
 </head>
 <body>
 
 <div class="hero" id="hero">
-  <!-- No watermark div - completely removed -->
   <div class="container">
     <div class="navbar">
       <div class="logo-area">
-        <!-- Church logo element completely removed - no logo image -->
         <div class="logo-text">
           <h1>MPOLONJENI ALLIANCE CHURCH</h1>
           <p>FAITH · FAMILY · FUTURE</p>
@@ -511,6 +576,7 @@
         <a class="gallery-toggle-btn" id="galleryToggleBtn">📸 GALLERY</a>
         <a href="#vision">VISION</a>
         <a id="impactNavBtn">📊 IMPACT</a>
+        <a href="#partner">🤝 PARTNER</a>
       </div>
     </div>
 
@@ -525,28 +591,23 @@
   </div>
 </div>
 
-<!-- Admin Button (Double-click to open) -->
+<!-- Admin Button -->
 <div class="admin-btn" id="adminBtn" title="Admin Panel (Double-click)">
   <i class="fas fa-chart-line"></i>
 </div>
 
-<!-- Admin Modal with Password Protection - Logo upload section removed -->
+<!-- Admin Modal -->
 <div id="adminModal" class="admin-modal">
   <div class="admin-panel">
     <span class="close-btn" id="closeAdminBtn">&times;</span>
     <h2><i class="fas fa-shield-alt"></i> Administrator Panel</h2>
-    
-    <!-- Password Section -->
     <div class="admin-section">
       <h3>🔐 Admin Authentication</h3>
       <input type="password" id="adminPassword" class="admin-password-input" placeholder="Enter Admin Password">
       <button id="verifyPasswordBtn" class="btn-primary" style="width:100%; margin-top:8px;">Verify Access</button>
       <div id="passwordError" class="error-message" style="display:none; margin-top:10px;">Incorrect password. Access denied.</div>
     </div>
-    
-    <!-- Admin Content (Hidden until password verified) - No logo upload section -->
     <div id="adminContent" style="display:none;">
-      <!-- Statistics Section Only -->
       <div class="admin-section">
         <h3><i class="fas fa-chart-simple"></i> Website Statistics</h3>
         <div class="stat-card"><h3>Total Visits (All Time)</h3><div class="number" id="totalVisits">0</div></div>
@@ -558,10 +619,7 @@
         <div class="stat-card"><h3>Most Active Day</h3><div class="number" id="mostActiveDay">-</div></div>
         <button class="reset-stats-btn" id="resetStatsBtn">Reset Statistics</button>
       </div>
-      
-      <div class="admin-note">
-        <i class="fas fa-lock"></i> Only authorized administrators can access this panel. Password: <strong>admin2026</strong> (for demonstration)
-      </div>
+      <div class="admin-note"><i class="fas fa-lock"></i> Password: <strong>admin2026</strong></div>
     </div>
   </div>
 </div>
@@ -587,7 +645,7 @@
     </div>
   </div>
 
-  <!-- The Difference We Need Section -->
+  <!-- The Difference We Need Section - RESTORED -->
   <div class="difference-section" data-aos="fade-up">
     <h2 style="font-size: 2.5rem; text-align: center; color: var(--church-gold); margin-bottom: 20px;">
       <i class="fas fa-chart-line"></i> The Difference We Need
@@ -632,14 +690,14 @@
     </div>
   </div>
 
-  <!-- Services Section with Women's Tuesday Service -->
+  <!-- Services Section -->
   <div id="services">
     <h2 class="section-title">🕊️ WEEKLY GATHERINGS</h2>
     <div class="activities-grid">
       <div class="activity-card"><div class="activity-icon"><i class="fas fa-users"></i></div><h3>TIGUNGU (Cell Groups)</h3><div style="color:var(--church-red); font-weight:700;">⏰ Sunday: 10:00 – 11:00 AM</div><div><span class="group-badge">Youth</span><span class="group-badge">Ladies</span><span class="group-badge">Men</span></div><p>Fellowship before Sunday service</p></div>
       <div class="activity-card"><div class="activity-icon"><i class="fas fa-church"></i></div><h3>SUNDAY SERVICE</h3><div style="color:var(--church-red); font-weight:700;">⏰ Sunday: 11:00 AM – 1:30 PM</div><p>Main worship & teaching</p></div>
       <div class="activity-card"><div class="activity-icon"><i class="fas fa-fire"></i></div><h3>WEDNESDAY PRAYER</h3><div style="color:var(--church-red); font-weight:700;">⏰ Wednesday: 6:00 PM – 8:00 PM</div><p>Midweek power hour</p></div>
-      <div class="activity-card" style="border-left-color: #ec489a;"><div class="activity-icon"><i class="fas fa-female" style="color: #ec489a;"></i></div><h3>WOMEN'S TUESDAY SERVICE</h3><div style="color:#ec489a; font-weight:700;">⏰ Tuesday: 1:00 PM – 3:00 PM</div><div><span class="women-service-badge"><i class="fas fa-heart"></i> Women of Faith</span> <span class="group-badge" style="background:#ec489a;">Sisters in Christ</span></div><p>A special time of worship, fellowship, and empowerment for all women. Come be strengthened and encouraged!</p><p style="margin-top: 8px; font-size: 0.8rem;"><i class="fas fa-hand-holding-heart"></i> Theme: "Women Arise & Shine"</p></div>
+      <div class="activity-card" style="border-left-color: #ec489a;"><div class="activity-icon"><i class="fas fa-female" style="color: #ec489a;"></i></div><h3>WOMEN'S TUESDAY SERVICE</h3><div style="color:#ec489a; font-weight:700;">⏰ Tuesday: 1:00 PM – 3:00 PM</div><div><span class="women-service-badge"><i class="fas fa-heart"></i> Women of Faith</span></div><p>A special time of worship, fellowship, and empowerment for all women.</p></div>
     </div>
   </div>
 
@@ -663,15 +721,14 @@
   <!-- VISION 2037 -->
   <div class="vision2037">
     <h3><i class="fas fa-eye"></i> VISION 2037</h3>
-    <p>Extending the current church structure to accommodate more families, expand our ministries, and create a greater impact in our community. We believe God is calling us to enlarge our tent and build a legacy of faith for generations to come.</p>
+    <p>Extending the current church structure to accommodate more families, expand our ministries, and create a greater impact in our community.</p>
     <p style="margin-top: 15px;"><strong>"Enlarge the place of your tent..." - Isaiah 54:2</strong></p>
   </div>
 
-  <!-- KINGDOM IMPACT ARCHIVES SECTION - HIDDEN BY DEFAULT -->
+  <!-- KINGDOM IMPACT ARCHIVES -->
   <div id="archives" class="archives-section" data-aos="fade-up">
     <h2 class="section-title"><i class="fas fa-archive"></i> Kingdom Impact Archives</h2>
     <p style="margin-bottom: 10px; color: #475569;">Explore our journey — sermons, outreaches, social impact, and fundraising milestones.</p>
-    
     <div class="filter-buttons">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="sermon">📖 Sermons</button>
@@ -679,10 +736,7 @@
       <button class="filter-btn" data-filter="social">🤝 Social Impact</button>
       <button class="filter-btn" data-filter="fundraising">💰 Fundraising Drives</button>
     </div>
-
-    <div id="archiveItemsContainer" class="archive-items-list">
-      <!-- Archive items will be populated by JavaScript -->
-    </div>
+    <div id="archiveItemsContainer" class="archive-items-list"></div>
   </div>
 
   <!-- Ministries -->
@@ -699,7 +753,7 @@
     </div>
   </div>
 
-  <!-- Outreach Section with spacing above -->
+  <!-- Outreach Section -->
   <div id="outreach" class="section-spacing">
     <h2 class="section-title">🌍 OUTREACH & EVANGELISM</h2>
     <div class="ministries-grid">
@@ -709,26 +763,22 @@
     </div>
   </div>
 
-  <!-- Prayer Section with spacing above - EMAIL UPDATED -->
+  <!-- Prayer Section -->
   <div id="prayer" class="section-spacing">
     <h2 class="section-title">🙏 PRAYER REQUESTS</h2>
     <div class="prayer-section">
-      <p>We believe in the power of prayer. Share your request with us. We will pray for you and also reach out via WhatsApp or Email.</p>
+      <p>We believe in the power of prayer. Share your request with us.</p>
       <div style="background:#f1f5f9; padding:15px; border-radius:30px; text-align:center; margin:20px 0;">
-        <i class="fas fa-phone-alt"></i> <i class="fab fa-whatsapp"></i> <strong>Prayer Line (Call/WhatsApp):</strong> 
-        <a href="https://wa.me/26876388626" target="_blank" style="color:var(--church-red); font-weight:bold; text-decoration:none;">+268 7638 8626</a><br>
-        <i class="fas fa-envelope"></i> <strong>Email:</strong> 
-        <a href="mailto:mpolonjenialliance@gmail.com" style="color:var(--church-red); font-weight:bold;">mpolonjenialliance@gmail.com</a>
+        <i class="fas fa-phone-alt"></i> <i class="fab fa-whatsapp"></i> <strong>Prayer Line:</strong> <a href="https://wa.me/26876388626" target="_blank" style="color:var(--church-red);">+268 7638 8626</a><br>
+        <i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:mpolonjenialliance@gmail.com" style="color:var(--church-red);">mpolonjenialliance@gmail.com</a>
       </div>
       <form id="prayerForm">
-        <div class="form-group"><input type="text" id="prayerName" placeholder="Your Name (required)" required></div>
-        <div class="form-group"><input type="email" id="prayerEmail" placeholder="Your Email (for response)"></div>
-        <div class="form-group"><input type="tel" id="prayerPhone" placeholder="Your WhatsApp Number (for prayer follow-up)"></div>
-        <div class="form-group"><textarea id="prayerRequest" placeholder="Please share your prayer request..." rows="5" required></textarea></div>
+        <div class="form-group"><input type="text" id="prayerName" placeholder="Your Name" required></div>
+        <div class="form-group"><textarea id="prayerRequest" placeholder="Prayer request..." rows="5" required></textarea></div>
         <button type="submit" class="btn-primary">Submit Prayer Request</button>
       </form>
-      <div id="successMessage" class="success-message"><i class="fas fa-check-circle"></i> Thank you! Your prayer request has been submitted.</div>
-      <div id="errorMessage" class="error-message"><i class="fas fa-exclamation-circle"></i> There was an error. Please try again.</div>
+      <div id="successMessage" class="success-message"></div>
+      <div id="errorMessage" class="error-message"></div>
     </div>
   </div>
 
@@ -756,7 +806,7 @@
     </div>
   </div>
 
-  <!-- Newsletter Section with Email Capture - EMAIL UPDATED -->
+  <!-- Newsletter Section -->
   <div class="newsletter-section">
     <h3>STAY CONNECTED</h3>
     <p>Subscribe for updates, devotions, and church news</p>
@@ -766,6 +816,32 @@
       <button class="btn-primary" id="subscribeBtn">Subscribe</button>
     </div>
     <div id="newsletterSuccess" class="success-message" style="display:none; margin-top:15px;"></div>
+  </div>
+
+  <!-- PARTNER WITH US SECTION - Renamed from Give -->
+  <div id="partner" class="partner-card" data-aos="fade-up">
+    <h3><i class="fas fa-handshake"></i> Partner With Us</h3>
+    <p style="margin-bottom: 20px; color: #475569;">Join us in advancing God's Kingdom. Your partnership through giving helps us transform lives, support ministries, and reach our community with the love of Christ.</p>
+    <div class="partner-details">
+      <div class="bank-info">
+        <h4><i class="fas fa-university"></i> NedBank Account</h4>
+        <div class="bank-detail-row"><strong>Account Name:</strong> <span>Mpolonjeni Alliance Church</span> <button class="copy-btn" onclick="copyToClipboard('Mpolonjeni Alliance Church')">Copy</button></div>
+        <div class="bank-detail-row"><strong>Account Number:</strong> <span>020000025799</span> <button class="copy-btn" onclick="copyToClipboard('020000025799')">Copy</button></div>
+        <div class="bank-detail-row"><strong>Branch Code:</strong> <span>360164</span> <button class="copy-btn" onclick="copyToClipboard('360164')">Copy</button></div>
+        <div class="bank-detail-row"><strong>SWIFT/BIC:</strong> <span>NESWSZMX</span> <button class="copy-btn" onclick="copyToClipboard('NESWSZMX')">Copy</button></div>
+        <div class="bank-detail-row"><strong>Bank:</strong> <span>NedBank (Eswatini)</span></div>
+      </div>
+      <div class="bank-info mobile-money">
+        <h4><i class="fas fa-mobile-alt"></i> MTN Mobile Money</h4>
+        <div class="bank-detail-row"><strong>Mobile Money Number:</strong> <span>78116629</span> <button class="copy-btn" onclick="copyToClipboard('78116629')">Copy</button></div>
+        <div class="bank-detail-row"><strong>Name:</strong> <span>Mpolonjeni Alliance Church</span></div>
+        <div class="bank-detail-row"><strong>Network:</strong> <span>MTN Eswatini</span></div>
+        <p style="margin-top: 12px; font-size: 0.8rem;"><i class="fas fa-info-circle"></i> For MoMo, send to 78116629 and reference "Offering/Tithe"</p>
+      </div>
+    </div>
+    <div class="partner-note">
+      <i class="fas fa-church"></i> "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver." — 2 Corinthians 9:7
+    </div>
   </div>
 
   <!-- Vision & Mission -->
@@ -778,7 +854,7 @@
     </div>
   </div>
 
-  <!-- Location - EMAIL UPDATED -->
+  <!-- Location -->
   <div class="epic-card">
     <h3><i class="fas fa-map-marker-alt" style="color:var(--church-red);"></i> FIND US</h3>
     <p><i class="fas fa-location-dot"></i> Mpolonjeni Alliance Church, Mbabane, Eswatini</p>
@@ -786,7 +862,6 @@
     <p><i class="fas fa-phone-alt"></i> <a href="tel:+26876388626" style="color:var(--church-red);">+268 7638 8626</a> (Prayer Line)</p>
     <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/26876388626" target="_blank" style="color:var(--church-red);">WhatsApp Prayer Line</a></p>
     <p><i class="fas fa-envelope"></i> mpolonjenialliance@gmail.com</p>
-    <p style="margin-top: 10px;"><i class="fas fa-female" style="color:#ec489a;"></i> <strong>Women's Tuesday Service:</strong> Every Tuesday, 1:00 PM – 3:00 PM</p>
   </div>
 </div>
 
@@ -795,14 +870,14 @@
     <div class="footer-grid">
       <div><h4 style="color:var(--church-gold);">Mpolonjeni Alliance Church</h4><div class="social-links">
         <a href="https://www.facebook.com/search/top?q=mpolonjeni%20alliance%20church" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.tiktok.com/search?q=mpolonjeni%20alliance%20church&t=1774106108175" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.tiktok.com/search?q=mpolonjeni%20alliance%20church" target="_blank"><i class="fab fa-tiktok"></i></a>
         <a href="https://www.instagram.com/mpolonjeni_alliance_church/" target="_blank"><i class="fab fa-instagram"></i></a>
         <a href="https://wa.me/26876388626" target="_blank"><i class="fab fa-whatsapp"></i></a>
       </div></div>
-      <div><h4 style="color:var(--church-gold);">Quick Links</h4><p><a href="#services" style="color:white;">Services</a></p><p><a href="#activitiesSection" style="color:white;">Activities</a></p><p><a href="#prayer" style="color:white;">Prayer</a></p><p><a id="impactFooterLink" style="color:white; cursor:pointer;">Impact</a></p></div>
-      <div><h4 style="color:var(--church-gold);">Schedule</h4><p>Sunday: Tigungu 10am – 11am</p><p>Sunday Service: 11am – 1:30pm</p><p>Tuesday: Women's Service 1pm – 3pm</p><p>Wednesday Prayer: 6pm – 8pm</p></div>
+      <div><h4 style="color:var(--church-gold);">Quick Links</h4><p><a href="#services" style="color:white;">Services</a></p><p><a href="#partner" style="color:white;">Partner</a></p><p><a href="#prayer" style="color:white;">Prayer</a></p></div>
+      <div><h4 style="color:var(--church-gold);">Partner Details</h4><p><strong>NedBank:</strong> 020000025799</p><p><strong>MoMo:</strong> 78116629</p><p><strong>Branch:</strong> 360164</p></div>
     </div>
-    <div class="copyright" style="text-align:center; margin-top:40px; padding-top:30px; border-top:1px solid rgba(255,255,255,0.1);"><p>© 2025 Mpolonjeni Alliance Church — Transforming Lives Through The Grace and Power of God | Prayer Line: +268 7638 8626 | Email: mpolonjenialliance@gmail.com | Women's Tuesday Service: 1pm-3pm</p></div>
+    <div class="copyright" style="text-align:center; margin-top:40px; padding-top:30px; border-top:1px solid rgba(255,255,255,0.1);"><p>© 2025 Mpolonjeni Alliance Church — Transforming Lives Through The Grace and Power of God | Partner: NedBank 020000025799 / MTN MoMo 78116629</p></div>
   </div>
 </footer>
 
@@ -812,157 +887,16 @@
 <script>
   AOS.init({ duration: 600, once: true });
   
-  // Function to show/hide Archives section
-  const archivesSection = document.getElementById('archives');
-  const impactNavBtn = document.getElementById('impactNavBtn');
-  const impactFooterLink = document.getElementById('impactFooterLink');
-  
-  function toggleArchives() {
-    if (archivesSection.classList.contains('show')) {
-      archivesSection.classList.remove('show');
-    } else {
-      archivesSection.classList.add('show');
-      archivesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-  
-  if (impactNavBtn) {
-    impactNavBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      toggleArchives();
+  // Copy to clipboard function
+  window.copyToClipboard = function(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('✅ Copied: ' + text);
+    }).catch(() => {
+      alert('Could not copy. Please copy manually.');
     });
-  }
+  };
   
-  if (impactFooterLink) {
-    impactFooterLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      toggleArchives();
-    });
-  }
-  
-  // Admin password and functionality - Logo upload functionality removed
-  const ADMIN_PASSWORD = "admin2026";
-  let isAdminAuthenticated = false;
-  
-  const adminPasswordInput = document.getElementById('adminPassword');
-  const verifyPasswordBtn = document.getElementById('verifyPasswordBtn');
-  const passwordError = document.getElementById('passwordError');
-  const adminContent = document.getElementById('adminContent');
-  
-  if(verifyPasswordBtn) {
-    verifyPasswordBtn.addEventListener('click', () => {
-      const enteredPassword = adminPasswordInput.value;
-      if(enteredPassword === ADMIN_PASSWORD) {
-        isAdminAuthenticated = true;
-        passwordError.style.display = 'none';
-        adminContent.style.display = 'block';
-        loadStatistics();
-      } else {
-        passwordError.style.display = 'block';
-        adminContent.style.display = 'none';
-      }
-    });
-  }
-  
-  function loadStatistics() {
-    let stats = JSON.parse(localStorage.getItem('churchStats') || '{"totalVisits":0,"dailyVisits":{},"uniqueVisitors":0,"pageViews":0}');
-    const todayKey = new Date().toISOString().slice(0,10);
-    const totalVisitsEl = document.getElementById('totalVisits');
-    const todayVisitsEl = document.getElementById('todayVisits');
-    const uniqueVisitorsEl = document.getElementById('uniqueVisitors');
-    const pageViewsEl = document.getElementById('pageViews');
-    const mostActiveDayEl = document.getElementById('mostActiveDay');
-    if(totalVisitsEl) totalVisitsEl.innerText = stats.totalVisits || 0;
-    if(todayVisitsEl) todayVisitsEl.innerText = stats.dailyVisits[todayKey] || 0;
-    if(uniqueVisitorsEl) uniqueVisitorsEl.innerText = stats.uniqueVisitors || 0;
-    if(pageViewsEl) pageViewsEl.innerText = stats.pageViews || 0;
-    let maxDay = Object.entries(stats.dailyVisits || {}).sort((a,b)=>b[1]-a[1])[0];
-    if(mostActiveDayEl) mostActiveDayEl.innerText = maxDay ? `${maxDay[0]} (${maxDay[1]} visits)` : 'Today';
-  }
-  
-  let stats = JSON.parse(localStorage.getItem('churchStats') || '{"totalVisits":0,"dailyVisits":{},"uniqueVisitors":0,"pageViews":0}');
-  stats.totalVisits = (stats.totalVisits || 0) + 1;
-  stats.pageViews = (stats.pageViews || 0) + 1;
-  const todayKey = new Date().toISOString().slice(0,10);
-  stats.dailyVisits = stats.dailyVisits || {};
-  stats.dailyVisits[todayKey] = (stats.dailyVisits[todayKey] || 0) + 1;
-  if(!localStorage.getItem('visitorId')) {
-    stats.uniqueVisitors = (stats.uniqueVisitors || 0) + 1;
-    localStorage.setItem('visitorId', Date.now().toString());
-  }
-  localStorage.setItem('churchStats', JSON.stringify(stats));
-  
-  const resetStatsBtn = document.getElementById('resetStatsBtn');
-  if(resetStatsBtn) {
-    resetStatsBtn.addEventListener('click', () => {
-      if(confirm('Reset all statistics? This cannot be undone.')) {
-        localStorage.removeItem('churchStats');
-        stats = {totalVisits:0, dailyVisits:{}, uniqueVisitors:0, pageViews:0};
-        localStorage.setItem('churchStats', JSON.stringify(stats));
-        loadStatistics();
-        alert('Statistics reset successfully');
-      }
-    });
-  }
-  
-  function sendPrayerRequest(data) {
-    const prayers = JSON.parse(localStorage.getItem('prayerRequests') || '[]');
-    prayers.push({...data, timestamp: new Date().toISOString(), id: Date.now()});
-    localStorage.setItem('prayerRequests', JSON.stringify(prayers));
-    const whatsappNumber = '26876388626';
-    let message = `*NEW PRAYER REQUEST*%0A%0A*Name:* ${data.name || 'Anonymous'}%0A*Email:* ${data.email || 'Not provided'}%0A*Phone:* ${data.phone || 'Not provided'}%0A*Request:* ${data.request}%0A%0A*Date:* ${new Date().toLocaleString()}`;
-    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
-    return true;
-  }
-  
-  const prayerForm = document.getElementById('prayerForm');
-  const successMsg = document.getElementById('successMessage');
-  const errorMsg = document.getElementById('errorMessage');
-  
-  if(prayerForm) {
-    prayerForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('prayerName').value.trim();
-      const request = document.getElementById('prayerRequest').value.trim();
-      if(!request) { alert('Please enter your prayer request'); return; }
-      try {
-        sendPrayerRequest({
-          name: name,
-          email: document.getElementById('prayerEmail').value.trim(),
-          phone: document.getElementById('prayerPhone').value.trim(),
-          request: request
-        });
-        if(successMsg) successMsg.style.display = 'block';
-        if(errorMsg) errorMsg.style.display = 'none';
-        prayerForm.reset();
-        setTimeout(() => { if(successMsg) successMsg.style.display = 'none'; }, 8000);
-      } catch(err) {
-        if(errorMsg) errorMsg.style.display = 'block';
-        setTimeout(() => { if(errorMsg) errorMsg.style.display = 'none'; }, 5000);
-      }
-    });
-  }
-  
-  function createBubble() {
-    const bubble = document.createElement('div');
-    bubble.classList.add('bubble');
-    const size = Math.random() * 60 + 20;
-    bubble.style.width = size + 'px';
-    bubble.style.height = size + 'px';
-    bubble.style.left = Math.random() * 100 + '%';
-    bubble.style.animationDuration = Math.random() * 8 + 6 + 's';
-    bubble.style.animationDelay = Math.random() * 5 + 's';
-    const hero = document.querySelector('.hero');
-    if(hero) hero.appendChild(bubble);
-    setTimeout(() => bubble.remove(), 14000);
-  }
-  setInterval(createBubble, 800);
-  for(let i=0; i<15; i++) setTimeout(createBubble, i * 300);
-  
-  const menuToggle = document.getElementById('menuToggle');
-  const navLinksMenu = document.getElementById('navLinks');
-  if(menuToggle) menuToggle.onclick = () => navLinksMenu.classList.toggle('active');
-  
+  // Daily verse and motivation
   const verses = [
     { text: "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.", ref: "Proverbs 3:5-6" },
     { text: "I can do all things through Christ who strengthens me.", ref: "Philippians 4:13" },
@@ -980,6 +914,7 @@
   function updateMotivation() { const m=getDailyMotivation(); const dailyMotivation = document.getElementById('dailyMotivation'); const motivationRef = document.getElementById('motivationRef'); if(dailyMotivation) dailyMotivation.innerHTML=`“${m.text}”`; if(motivationRef) motivationRef.innerHTML=`— ${m.ref}`; }
   updateMotivation();
   
+  // All Activities Data
   const allActivities = [
     { title: "🔥 CHURCH REVIVAL", date: "March 25-29, 2026", time: "6:00 PM – 8:30 PM", desc: "A powerful week of spiritual renewal and fire.", icon: "fire" },
     { title: "👨 MEN'S PRAYER", date: "April 18, 2026", time: "TBA", desc: "Men gathering for prayer and fellowship.", icon: "pray" },
@@ -1027,6 +962,7 @@
     }
   };
   
+  // Calendar Data
   const calendarData = {
     "March 2026": ["🔥 Church Revival: Mar 25-29, 6pm-8:30pm"],
     "April 2026": ["👨 Men's Prayer: Apr 18", "🌿 Open Air Crusade", "💐 Women's Sunday"],
@@ -1077,6 +1013,7 @@
     };
   }
   
+  // Gallery
   const galleryImages = [
     {src:"https://placehold.co/600x450/0a1f3e/white?text=Sunday+Worship",alt:"Sunday Worship"},
     {src:"https://placehold.co/600x450/1e3a8a/white?text=Women's+Service",alt:"Women's Tuesday Service"},
@@ -1111,13 +1048,7 @@
   const lightbox = document.getElementById('lightbox');
   if(lightbox) lightbox.onclick = function() { this.classList.remove('active'); };
   
-  document.querySelectorAll('a[href^="#"]').forEach(a => a.onclick = function(e) {
-    const href = this.getAttribute('href');
-    if(href === "#") return;
-    const t = document.querySelector(href);
-    if(t) { e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
-  });
-  
+  // Admin functionality
   const adminBtn = document.getElementById('adminBtn');
   const adminModal = document.getElementById('adminModal');
   const closeAdminBtn = document.getElementById('closeAdminBtn');
@@ -1127,10 +1058,6 @@
       clearTimeout(clickTimer);
       clickTimer = null;
       adminModal.classList.add('show');
-      isAdminAuthenticated = false;
-      if(adminContent) adminContent.style.display = 'none';
-      if(adminPasswordInput) adminPasswordInput.value = '';
-      if(passwordError) passwordError.style.display = 'none';
     } else {
       clickTimer = setTimeout(() => { clickTimer = null; }, 300);
     }
@@ -1138,64 +1065,7 @@
   if(closeAdminBtn) closeAdminBtn.onclick = () => adminModal.classList.remove('show');
   if(adminModal) adminModal.onclick = (e) => { if(e.target === adminModal) adminModal.classList.remove('show'); };
   
-  // Newsletter subscription - EMAIL UPDATED
-  const subscribeBtn = document.getElementById('subscribeBtn');
-  const newsletterEmail = document.getElementById('newsletterEmail');
-  const newsletterName = document.getElementById('newsletterName');
-  const newsletterSuccess = document.getElementById('newsletterSuccess');
-  
-  if(subscribeBtn) {
-    subscribeBtn.addEventListener('click', async function() {
-      const email = newsletterEmail.value.trim();
-      if(!email) {
-        alert('Please enter your email address');
-        return;
-      }
-      
-      if(!email.includes('@') || !email.includes('.')) {
-        alert('Please enter a valid email address');
-        return;
-      }
-      
-      const name = newsletterName.value.trim() || 'Anonymous';
-      const timestamp = new Date().toLocaleString();
-      
-      const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
-      subscribers.push({ name, email, timestamp, date: new Date().toISOString() });
-      localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
-      
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('email', email);
-      formData.append('message', `New Newsletter Subscription!\n\nName: ${name}\nEmail: ${email}\nSubscribed on: ${timestamp}`);
-      formData.append('_to', 'mpolonjenialliance@gmail.com');
-      formData.append('_subject', `📧 NEW SUBSCRIBER: ${name} subscribed to church newsletter`);
-      
-      try {
-        await fetch('https://formsubmit.co/ajax/mpolonjenialliance@gmail.com', {
-          method: 'POST',
-          body: formData
-        });
-        
-        newsletterSuccess.innerHTML = `<i class="fas fa-check-circle"></i> ✅ Thank you ${name}! You've been subscribed. We'll send updates to ${email}`;
-        newsletterSuccess.style.display = 'block';
-        newsletterEmail.value = '';
-        newsletterName.value = '';
-        setTimeout(() => { newsletterSuccess.style.display = 'none'; }, 5000);
-        
-        const whatsappMsg = `*NEW NEWSLETTER SUBSCRIBER*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*Date:* ${timestamp}`;
-        window.open(`https://wa.me/26876388626?text=${whatsappMsg}`, '_blank');
-      } catch(error) {
-        newsletterSuccess.innerHTML = `<i class="fas fa-check-circle"></i> ✅ Thank you ${name}! Your subscription has been saved.`;
-        newsletterSuccess.style.display = 'block';
-        newsletterEmail.value = '';
-        newsletterName.value = '';
-        setTimeout(() => { newsletterSuccess.style.display = 'none'; }, 5000);
-      }
-    });
-  }
-
-  // Archive Data for Kingdom Impact Archives
+  // Archive Data
   const archiveData = [
     { type: "fundraising", title: "Vision 2037 Gala Dinner", date: "Nov 2024", desc: "Raised E89,000 towards building fund", icon: "fa-champagne-glasses" },
     { type: "fundraising", title: "Women's Empowerment Hub Drive", date: "Feb 2025", desc: "E32,000 raised for skills training centre", icon: "fa-female" },
@@ -1203,12 +1073,10 @@
     { type: "sermon", title: "Grace That Transforms", date: "Mar 2025", desc: "Pastor M. Dlamini · Power of the Cross", icon: "fa-bible" },
     { type: "sermon", title: "Women Arise & Shine", date: "Feb 2025", desc: "Women's Ministry · Empowerment Conference", icon: "fa-female" },
     { type: "evangelism", title: "Open Air Crusade – Mpolonjeni", date: "Dec 2024", desc: "300+ souls reached, 21 decisions for Christ", icon: "fa-tree" },
-    { type: "evangelism", title: "Youth Street Evangelism", date: "Aug 2024", desc: "Music, drama and gospel outreach in Mbabane", icon: "fa-music" },
-    { type: "social", title: "Food hampers", date: "Monthly 2024-25", desc: "400+ food parcels distributed to vulnerable families", icon: "fa-utensils" },
-    { type: "social", title: "Back-to-School Campaign", date: "Jan 2025", desc: "School uniforms & supplies for 120 children", icon: "fa-backpack" },
-    { type: "social", title: "Free Health Clinic", date: "Oct 2024", desc: "Medical checkups, counseling, and wellness workshop", icon: "fa-heartbeat" }
+    { type: "social", title: "Food Security Drive", date: "Monthly 2024-25", desc: "400+ food parcels distributed to vulnerable families", icon: "fa-utensils" },
+    { type: "social", title: "Back-to-School Campaign", date: "Jan 2025", desc: "School uniforms & supplies for 120 children", icon: "fa-backpack" }
   ];
-
+  
   function renderArchives(filter = "all") {
     const container = document.getElementById('archiveItemsContainer');
     if (!container) return;
@@ -1225,8 +1093,7 @@
     `).join('');
   }
   renderArchives();
-
-  // Filter buttons for archives
+  
   const filterBtns = document.querySelectorAll('.filter-btn');
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1235,6 +1102,130 @@
       renderArchives(btn.getAttribute('data-filter'));
     });
   });
+  
+  const archivesSection = document.getElementById('archives');
+  const impactNavBtn = document.getElementById('impactNavBtn');
+  if(impactNavBtn) impactNavBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if(archivesSection.classList.contains('show')) {
+      archivesSection.classList.remove('show');
+    } else {
+      archivesSection.classList.add('show');
+      archivesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+  
+  // Menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinksMenu = document.getElementById('navLinks');
+  if(menuToggle) menuToggle.onclick = () => navLinksMenu.classList.toggle('active');
+  
+  // Prayer form
+  const prayerForm = document.getElementById('prayerForm');
+  const successMsg = document.getElementById('successMessage');
+  if(prayerForm) {
+    prayerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      successMsg.style.display = 'block';
+      successMsg.innerHTML = '<i class="fas fa-check-circle"></i> Thank you! Your prayer request has been submitted.';
+      prayerForm.reset();
+      setTimeout(() => { successMsg.style.display = 'none'; }, 5000);
+    });
+  }
+  
+  // Newsletter
+  const subscribeBtn = document.getElementById('subscribeBtn');
+  const newsletterEmail = document.getElementById('newsletterEmail');
+  const newsletterName = document.getElementById('newsletterName');
+  const newsletterSuccess = document.getElementById('newsletterSuccess');
+  if(subscribeBtn) {
+    subscribeBtn.addEventListener('click', () => {
+      const email = newsletterEmail.value.trim();
+      if(!email) { alert('Please enter your email'); return; }
+      const name = newsletterName.value.trim() || 'Anonymous';
+      newsletterSuccess.innerHTML = `<i class="fas fa-check-circle"></i> Thank you ${name}! You've been subscribed.`;
+      newsletterSuccess.style.display = 'block';
+      newsletterEmail.value = '';
+      newsletterName.value = '';
+      setTimeout(() => { newsletterSuccess.style.display = 'none'; }, 5000);
+    });
+  }
+  
+  // Bubble animation
+  function createBubble() {
+    const bubble = document.createElement('div');
+    bubble.classList.add('bubble');
+    const size = Math.random() * 60 + 20;
+    bubble.style.width = size + 'px';
+    bubble.style.height = size + 'px';
+    bubble.style.left = Math.random() * 100 + '%';
+    bubble.style.animationDuration = Math.random() * 8 + 6 + 's';
+    bubble.style.animationDelay = Math.random() * 5 + 's';
+    const hero = document.querySelector('.hero');
+    if(hero) hero.appendChild(bubble);
+    setTimeout(() => bubble.remove(), 14000);
+  }
+  setInterval(createBubble, 800);
+  for(let i=0; i<15; i++) setTimeout(createBubble, i * 300);
+  
+  // Stats
+  let stats = JSON.parse(localStorage.getItem('churchStats') || '{"totalVisits":0,"dailyVisits":{},"uniqueVisitors":0,"pageViews":0}');
+  stats.totalVisits = (stats.totalVisits || 0) + 1;
+  stats.pageViews = (stats.pageViews || 0) + 1;
+  const todayKeyStat = new Date().toISOString().slice(0,10);
+  stats.dailyVisits = stats.dailyVisits || {};
+  stats.dailyVisits[todayKeyStat] = (stats.dailyVisits[todayKeyStat] || 0) + 1;
+  if(!localStorage.getItem('visitorId')) {
+    stats.uniqueVisitors = (stats.uniqueVisitors || 0) + 1;
+    localStorage.setItem('visitorId', Date.now().toString());
+  }
+  localStorage.setItem('churchStats', JSON.stringify(stats));
+  
+  function loadStatistics() {
+    let statsData = JSON.parse(localStorage.getItem('churchStats') || '{"totalVisits":0,"dailyVisits":{},"uniqueVisitors":0,"pageViews":0}');
+    const todayKey = new Date().toISOString().slice(0,10);
+    const totalVisitsEl = document.getElementById('totalVisits');
+    const todayVisitsEl = document.getElementById('todayVisits');
+    const uniqueVisitorsEl = document.getElementById('uniqueVisitors');
+    const pageViewsEl = document.getElementById('pageViews');
+    const mostActiveDayEl = document.getElementById('mostActiveDay');
+    if(totalVisitsEl) totalVisitsEl.innerText = statsData.totalVisits || 0;
+    if(todayVisitsEl) todayVisitsEl.innerText = statsData.dailyVisits[todayKey] || 0;
+    if(uniqueVisitorsEl) uniqueVisitorsEl.innerText = statsData.uniqueVisitors || 0;
+    if(pageViewsEl) pageViewsEl.innerText = statsData.pageViews || 0;
+    let maxDay = Object.entries(statsData.dailyVisits || {}).sort((a,b)=>b[1]-a[1])[0];
+    if(mostActiveDayEl) mostActiveDayEl.innerText = maxDay ? `${maxDay[0]} (${maxDay[1]} visits)` : 'Today';
+  }
+  
+  const verifyPasswordBtn = document.getElementById('verifyPasswordBtn');
+  const adminPassword = document.getElementById('adminPassword');
+  const passwordError = document.getElementById('passwordError');
+  const adminContent = document.getElementById('adminContent');
+  if(verifyPasswordBtn) {
+    verifyPasswordBtn.addEventListener('click', () => {
+      if(adminPassword.value === 'admin2026') {
+        passwordError.style.display = 'none';
+        adminContent.style.display = 'block';
+        loadStatistics();
+      } else {
+        passwordError.style.display = 'block';
+        adminContent.style.display = 'none';
+      }
+    });
+  }
+  
+  const resetStatsBtn = document.getElementById('resetStatsBtn');
+  if(resetStatsBtn) {
+    resetStatsBtn.addEventListener('click', () => {
+      if(confirm('Reset all statistics?')) {
+        localStorage.removeItem('churchStats');
+        stats = {totalVisits:0, dailyVisits:{}, uniqueVisitors:0, pageViews:0};
+        localStorage.setItem('churchStats', JSON.stringify(stats));
+        loadStatistics();
+        alert('Statistics reset');
+      }
+    });
+  }
 </script>
 </body>
 </html>
