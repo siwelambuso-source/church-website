@@ -2,189 +2,551 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=1.0">
-  <meta name="theme-color" content="#003366">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>MPAC DataHub | Premium Analytics with Charts & Filters</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>MPAC DataHub | Dual Dashboard Analytics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
   <style>
-    /* Your existing beautiful styles remain unchanged */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     :root {
       --patriot-blue: #003366;
       --patriot-red: #b22234;
       --patriot-gold: #ffd700;
-      --patriot-white: #ffffff;
-      --patriot-crimson: #8b0000;
-      --shadow-lg: 0 20px 35px -10px rgba(0,0,0,0.3);
-      --shadow-md: 0 8px 20px rgba(0,0,0,0.2);
-      --radius-2xl: 2rem;
+      --gradient-primary: linear-gradient(135deg, #003366 0%, #00264d 40%, #b22234 100%);
+      --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.3);
+      --shadow-glow: 0 0 20px rgba(255, 215, 0, 0.3);
+      --radius-2xl: 1.5rem;
     }
+
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, var(--patriot-blue) 0%, #00264d 40%, var(--patriot-red) 100%);
+      background: var(--gradient-primary);
+      background-attachment: fixed;
       min-height: 100vh;
-      color: var(--patriot-white);
-      position: relative;
+      color: white;
     }
-    body::before {
-      content: '';
+
+    /* Login Overlay */
+    .login-overlay {
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: url('https://i.imgur.com/kTumLOY.jpg');
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: 70% auto;
-      opacity: 0.06;
-      pointer-events: none;
-      z-index: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(14px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s ease;
     }
-    .container { max-width: 1400px; margin: 0 auto; padding: 20px; position: relative; z-index: 10; }
-    /* ... rest of your beautiful CSS remains the same ... */
-    /* (I kept all your premium styles intact) */
+
+    .login-container {
+      background: rgba(10, 20, 35, 0.92);
+      backdrop-filter: blur(16px);
+      border-radius: 2rem;
+      padding: 2.5rem;
+      width: 90%;
+      max-width: 480px;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      text-align: center;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-logo {
+      width: 110px;
+      height: 110px;
+      background: linear-gradient(145deg, #ffd700, #ffed4e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.2rem;
+      box-shadow: var(--shadow-glow);
+      overflow: hidden;
+      padding: 8px;
+    }
+    
+    .login-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .login-container h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffd700, #ffb347);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-sub {
+      color: #a0c4ff;
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px dashed rgba(255, 215, 0, 0.3);
+      display: inline-block;
+      padding-bottom: 0.3rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      color: var(--patriot-gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .input-group i {
+      margin-right: 8px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 1rem;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .login-input:focus {
+      outline: none;
+      border-color: var(--patriot-gold);
+      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+    }
+
+    .login-btn {
+      background: linear-gradient(135deg, #b22234, #8b0000);
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 2rem;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 0.5rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .login-btn:hover {
+      transform: scale(1.02);
+      background: linear-gradient(135deg, #c22a3e, #9a0a1a);
+      box-shadow: 0 5px 12px rgba(255, 215, 0, 0.4);
+    }
+
+    .error-message {
+      background: rgba(178, 34, 52, 0.9);
+      padding: 10px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      margin-top: 1rem;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .demo-hint {
+      font-size: 0.7rem;
+      color: #cdd9ff;
+      margin-top: 1.8rem;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 8px;
+      border-radius: 50px;
+    }
+
+    /* Dashboard Wrapper */
+    .dashboard-wrapper {
+      display: none;
+    }
+    .dashboard-wrapper.visible {
+      display: block;
+    }
+
+    /* Main Dashboard Styles */
+    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+    .premium-header {
+      background: linear-gradient(135deg, rgba(0, 51, 102, 0.95), rgba(178, 34, 52, 0.95));
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-2xl);
+      padding: 20px 30px;
+      margin-bottom: 25px;
+      border: 2px solid var(--patriot-gold);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      box-shadow: var(--shadow-premium);
+    }
+    .logo-section { display: flex; align-items: center; gap: 15px; }
+    .logo-badge {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, #ffd700, #ffed4e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      animation: pulse 2s infinite;
+      box-shadow: var(--shadow-glow);
+    }
+    .logo-badge img { width: 100%; height: 100%; object-fit: cover; }
+    .header-text h1 { font-size: 1.4rem; color: var(--patriot-gold); font-weight: 800; }
+    .header-text p { font-size: 0.75rem; opacity: 0.9; }
+    .stats-badge {
+      display: flex;
+      gap: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px 20px;
+      border-radius: 50px;
+      backdrop-filter: blur(5px);
+    }
+    .stats-badge span { font-weight: bold; color: var(--patriot-gold); }
+    .nyc-layout { display: flex; gap: 25px; }
+    .vertical-nav {
+      width: 280px;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-2xl);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      padding: 20px;
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+    .nav-items { display: flex; flex-direction: column; gap: 12px; }
+    .nav-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 16px;
+      padding: 14px 18px;
+      color: #cbd5e1;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-pill i { font-size: 1.2rem; width: 28px; }
+    .nav-pill:hover { background: rgba(255, 215, 0, 0.1); border-color: var(--patriot-gold); color: white; transform: translateX(5px); }
+    .nav-pill.active { background: linear-gradient(135deg, #b22234, #8b0000); border-color: var(--patriot-gold); color: white; }
+    .main-content { flex: 1; min-width: 0; }
+    .dashboard-toggle { display: flex; gap: 15px; margin-bottom: 20px; }
+    .dash-toggle-btn {
+      flex: 1; padding: 14px; background: rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 215, 0, 0.3); border-radius: 50px;
+      color: white; cursor: pointer; font-weight: 700; text-align: center;
+    }
+    .dash-toggle-btn.active { background: linear-gradient(135deg, #b22234, #8b0000); border-color: var(--patriot-gold); }
+    .filter-bar {
+      background: rgba(0, 30, 50, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-2xl);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: flex-end;
+    }
+    .filter-group { flex: 1; min-width: 150px; }
+    .filter-group label { display: block; margin-bottom: 8px; font-size: 0.75rem; color: var(--patriot-gold); text-transform: uppercase; font-weight: 600; }
+    .filter-select { width: 100%; padding: 10px 12px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 12px; color: white; cursor: pointer; }
+    .btn-reset { background: rgba(255, 215, 0, 0.2); border: 1px solid var(--patriot-gold); padding: 10px 20px; border-radius: 12px; color: white; cursor: pointer; }
+    .glass-card {
+      background: rgba(0, 30, 50, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-2xl);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .card-header { padding: 18px 24px; background: rgba(178, 34, 52, 0.2); border-bottom: 2px solid var(--patriot-gold); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .card-header h3 { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .kpi-box { background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05)); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid rgba(255, 215, 0, 0.3); transition: all 0.3s; }
+    .kpi-box:hover { transform: translateY(-5px); background: rgba(255, 215, 0, 0.2); }
+    .kpi-icon { font-size: 2rem; color: var(--patriot-gold); margin-bottom: 10px; }
+    .kpi-val { font-size: 2rem; font-weight: 900; color: var(--patriot-gold); }
+    .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .chart-container { padding: 20px; height: 350px; position: relative; }
+    .record-type-toggle { display: flex; gap: 15px; margin: 20px 25px; }
+    .toggle-btn { flex: 1; padding: 14px; background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(255, 215, 0, 0.3); border-radius: 50px; color: white; cursor: pointer; font-weight: 700; }
+    .toggle-btn.active { background: linear-gradient(135deg, #b22234, #8b0000); border-color: var(--patriot-gold); }
+    .form-container { padding: 0 25px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.8rem; color: var(--patriot-gold); text-transform: uppercase; letter-spacing: 1px; }
+    .form-control { width: 100%; padding: 14px 18px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 14px; color: white; font-size: 0.95rem; }
+    .gender-dual { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+    .gender-box { background: rgba(0, 0, 0, 0.4); padding: 20px; border-radius: 16px; text-align: center; border: 1px solid rgba(255, 215, 0, 0.2); }
+    .gender-box input { width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 12px; color: white; font-size: 1.2rem; text-align: center; }
+    .btn-gold { background: linear-gradient(135deg, #b22234, #8b0000); color: white; border: none; padding: 16px; border-radius: 50px; font-weight: 800; cursor: pointer; width: 100%; margin: 20px 0 25px 0; transition: all 0.3s; }
+    .btn-gold:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      background: linear-gradient(135deg, #6e1a1f, #5a0000);
+    }
+    .btn-secondary { background: rgba(255, 215, 0, 0.2); border: 1px solid var(--patriot-gold); color: white; padding: 8px 20px; border-radius: 50px; cursor: pointer; }
+    .data-table-wrapper { overflow-x: auto; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    th { color: var(--patriot-gold); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
+    .record-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; }
+    .badge-attendance { background: #b22234; }
+    .badge-meeting { background: #003366; }
+    .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 25px; }
+    .insight-card { background: rgba(0, 0, 0, 0.4); padding: 20px; border-radius: 20px; border-left: 4px solid var(--patriot-gold); }
+    .insight-stat { font-size: 1.5rem; font-weight: bold; color: var(--patriot-gold); margin: 10px 0; }
+    .dashboard-container { display: none; animation: fadeIn 0.4s; }
+    .dashboard-container.active { display: block; }
+    .tab-content { display: none; animation: fadeIn 0.4s; }
+    .tab-content.active { display: block; }
+    .toast { position: fixed; bottom: 30px; right: 30px; background: var(--patriot-gold); color: #003366; padding: 12px 24px; border-radius: 50px; font-weight: bold; display: none; z-index: 1000; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); } 50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 968px) { .nyc-layout { flex-direction: column; } .vertical-nav { width: 100%; position: relative; top: 0; } .nav-items { flex-direction: row; flex-wrap: wrap; } .chart-grid { grid-template-columns: 1fr; } .gender-dual { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-<div class="container">
-  <!-- Your existing beautiful HTML structure remains unchanged -->
-  <!-- ... (all your premium-header, nav, recordPage, dashboardPage, etc.) ... -->
 
-  <!-- DRIVE SYNC PAGE (important for configuration) -->
-  <div id="drivePage" class="tab-pane">
-    <div class="glass-card">
-      <div class="card-header-premium"><h2><i class="fab fa-google-drive"></i> Google Sheets Sync</h2></div>
-      <div class="card-body-premium">
-        <div style="background:rgba(0,0,0,0.3); border-radius:24px; padding:20px; margin-bottom:20px;">
-          <label class="form-label"><i class="fas fa-link"></i> Apps Script Web App URL</label>
-          <input type="text" id="webhookUrl" class="form-control" placeholder="https://script.google.com/macros/s/.../exec" value="https://script.google.com/macros/s/AKfycbybZg7o3EOqi5jdbuFBvxirFSrRb8FTE4NpUV4GAxbZkA8qq1Ily1ZuvxWi_peJXMjVBg/exec">
-          <small style="display:block; margin-top:8px; opacity:0.7;">Paste your deployed Google Apps Script URL for real-time sync</small>
-        </div>
-        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
-          <button id="testConnectionBtn" class="btn-outline"><i class="fas fa-plug"></i> Test Connection</button>
-          <button id="pullFromDriveBtn" class="btn-outline"><i class="fas fa-download"></i> Pull from Sheet</button>
-          <button id="syncNowBtn" class="btn-outline"><i class="fas fa-sync-alt"></i> Full Sync</button>
-        </div>
-        <div id="syncStatusMessage" style="background:rgba(0,0,0,0.3); border-radius:20px; padding:16px;"></div>
-      </div>
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-container">
+    <div class="login-logo">
+      <img src="https://i.imgur.com/kTumLOY.jpg" alt="MPAC Church Logo" onerror="this.src='https://via.placeholder.com/100?text=MPAC'">
     </div>
+    <h2>MPAC DataHub</h2>
+    <div class="login-sub">Secure Access · Dual Dashboard</div>
+    <form id="loginForm">
+      <div class="input-group">
+        <label><i class="fas fa-user-lock"></i> Username</label>
+        <input type="text" id="loginUsername" class="login-input" placeholder="MPAC" autocomplete="off" value="">
+      </div>
+      <div class="input-group">
+        <label><i class="fas fa-key"></i> Password</label>
+        <input type="password" id="loginPassword" class="login-input" placeholder="••••••">
+      </div>
+      <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt"></i> Unlock Dashboard</button>
+      <div id="loginError" class="error-message"><i class="fas fa-exclamation-triangle"></i> Invalid credentials</div>
+      <div class="demo-hint">
+        <i class="fas fa-lock"></i> Demo: <strong style="color:#ffd700;">MPAC</strong> / <strong style="color:#ffd700;">MPAC#2026</strong>
+      </div>
+    </form>
   </div>
 </div>
 
-<div class="toast-premium" id="toastMsg">MPAC DataHub Ready</div>
+<!-- DASHBOARD WRAPPER -->
+<div id="dashboardWrapper" class="dashboard-wrapper">
+  <div class="container">
+    <div class="premium-header">
+      <div class="logo-section">
+        <div class="logo-badge"><img src="https://i.imgur.com/kTumLOY.jpg" alt="MPAC Logo" onerror="this.src='https://via.placeholder.com/60?text=MPAC'"></div>
+        <div class="header-text"><h1>MPAC DataHub <span style="font-size: 0.8rem;">| Dual Dashboard Analytics</span></h1><p>Mpolonjeni Alliance Church • Live Cloud Sync with Google Sheets</p></div>
+      </div>
+      <div class="stats-badge"><div><i class="fas fa-calendar-alt"></i> <span id="currentDate"></span></div><div><i class="fas fa-cloud-upload-alt"></i> <span id="syncStatus">● Live</span></div><div><i class="fas fa-database"></i> <span id="recordCount">0</span> Records</div></div>
+    </div>
+    <div class="nyc-layout">
+      <div class="vertical-nav"><div class="nav-items"><button class="nav-pill active" onclick="showTab('record')"><i class="fas fa-pen-alt"></i><span>Record</span></button><button class="nav-pill" onclick="showTab('dashboard')"><i class="fas fa-chart-line"></i><span>Dashboards</span></button><button class="nav-pill" onclick="showTab('analytics')"><i class="fas fa-chart-pie"></i><span>Analytics</span></button><button class="nav-pill" onclick="showTab('archive')"><i class="fas fa-database"></i><span>Archive</span></button><button class="nav-pill" onclick="showTab('insights')"><i class="fas fa-brain"></i><span>Insights</span></button></div></div>
+      <div class="main-content">
+        <div id="recordTab" class="tab-content active"><div class="glass-card"><div class="card-header"><h3><i class="fas fa-pen-alt"></i> Record New Data</h3><i class="fas fa-cloud-upload-alt"></i></div><div class="record-type-toggle"><button class="toggle-btn active" id="attendanceToggleBtn" onclick="showRecordType('attendance')"><i class="fas fa-users"></i> Attendance</button><button class="toggle-btn" id="meetingToggleBtn" onclick="showRecordType('meeting')"><i class="fas fa-handshake"></i> Meetings</button></div><div id="attendanceContainer" class="form-container"><form id="attendanceForm"><div class="form-group"><label><i class="fas fa-calendar"></i> Date</label><input type="date" id="attDate" class="form-control" required></div><div class="form-group"><label><i class="fas fa-church"></i> Ministry / Activity</label><select id="ministrySelect" class="form-control" required onchange="handleMinistryChange()"><option value="">-- Select Activity --</option><option value="Sunday School">🏫 Sunday School</option><option value="Ladies Fellowship">👩 Ladies Fellowship</option><option value="Men's Fellowship">👨 Men's Fellowship</option><option value="Youth Fellowship">🎉 Youth Fellowship</option><option value="Wednesday Prayer">🙏 Wednesday Prayer</option><option value="Sunday Service">⛪ Sunday Service</option><option value="Visitors / Guests">🤝 Visitors / Guests</option><option value="Bible Study">📖 Bible Study</option><option value="Couples Fellowship">💑 Couples Fellowship</option><option value="Single Parents">👩‍👧 Single Parents</option></select></div><div id="topicGroup" class="form-group"><label><i class="fas fa-book"></i> Topic / Sermon</label><input type="text" id="topic" class="form-control" placeholder="Enter topic"></div><div id="offeringGroup" class="form-group"><label><i class="fas fa-money-bill-wave"></i> Offering (SZL)</label><input type="number" id="offering" step="0.01" class="form-control" value="0"></div><div class="gender-dual"><div class="gender-box"><label><i class="fas fa-male"></i> Male</label><input type="number" id="maleCount" value="0" min="0"></div><div class="gender-box"><label><i class="fas fa-female"></i> Female</label><input type="number" id="femaleCount" value="0" min="0"></div></div><button type="submit" class="btn-gold" id="saveAttendanceBtn"><i class="fas fa-save"></i> Save Attendance Record</button></form></div><div id="meetingContainer" class="form-container" style="display: none;"><form id="meetingForm"><div class="form-group"><label><i class="fas fa-calendar"></i> Date</label><input type="date" id="meetingDate" class="form-control" required></div><div class="form-group"><label><i class="fas fa-users"></i> Committee Type</label><select id="meetingType" class="form-control" required><option value="">-- Select Committee --</option><option value="Women's Committee">👩 Women's Committee</option><option value="Men's Committee">👨 Men's Committee</option><option value="Youth Committee">🎉 Youth Committee</option><option value="Sunday School Committee">🏫 Sunday School Committee</option><option value="Project Committee">🏗️ Project Committee</option><option value="LCB">📋 LCB</option><option value="Social Committee">🎊 Social Committee</option><option value="Finance Committee">💰 Finance Committee</option><option value="Evangelism Committee">📢 Evangelism Committee</option></select></div><div class="form-group"><label><i class="fas fa-sticky-note"></i> Meeting Agenda</label><textarea id="meetingAgenda" class="form-control" rows="2" placeholder="What was discussed?"></textarea></div><div class="form-group"><label><i class="fas fa-trophy"></i> Outcomes / Key Takeaways</label><textarea id="meetingOutcomes" class="form-control" rows="3" placeholder="Decisions, resolutions..."></textarea></div><div class="gender-dual"><div class="gender-box"><label><i class="fas fa-male"></i> Male Present</label><input type="number" id="meetingMaleCount" value="0" min="0"></div><div class="gender-box"><label><i class="fas fa-female"></i> Female Present</label><input type="number" id="meetingFemaleCount" value="0" min="0"></div></div><button type="submit" class="btn-gold" id="saveMeetingBtn"><i class="fas fa-save"></i> Save Meeting Record</button></form></div></div></div>
+        <div id="dashboardTab" class="tab-content"><div class="dashboard-toggle"><button class="dash-toggle-btn active" id="attendanceDashBtn" onclick="showDashboardType('attendance')"><i class="fas fa-users"></i> Attendance Dashboard</button><button class="dash-toggle-btn" id="meetingDashBtn" onclick="showDashboardType('meeting')"><i class="fas fa-handshake"></i> Meetings Dashboard</button></div><div id="attendanceDashboard" class="dashboard-container active"><div class="filter-bar"><div class="filter-group"><label><i class="fas fa-calendar"></i> Year</label><select id="attYearFilter" class="filter-select"><option value="all">All Years</option></select></div><div class="filter-group"><label><i class="fas fa-calendar-alt"></i> Month</label><select id="attMonthFilter" class="filter-select"><option value="all">All Months</option></select></div><div class="filter-group"><label><i class="fas fa-church"></i> Ministry</label><select id="attMinistryFilter" class="filter-select"><option value="all">All Ministries</option></select></div><button class="btn-reset" onclick="resetAttendanceFilters()"><i class="fas fa-undo"></i> Reset</button></div><div class="kpi-grid" id="attendanceKPI"></div><div class="chart-grid"><div class="glass-card"><div class="card-header"><h3><i class="fas fa-chart-bar"></i> Attendance by Ministry</h3></div><div class="chart-container"><canvas id="attMinistryChart"></canvas></div></div><div class="glass-card"><div class="card-header"><h3><i class="fas fa-chart-pie"></i> Gender Distribution</h3></div><div class="chart-container"><canvas id="attGenderChart"></canvas></div></div></div><div class="chart-grid"><div class="glass-card"><div class="card-header"><h3><i class="fas fa-chart-line"></i> Monthly Attendance Trends</h3></div><div class="chart-container"><canvas id="attMonthlyChart"></canvas></div></div><div class="glass-card"><div class="card-header"><h3><i class="fas fa-chart-line"></i> Offering Trends</h3></div><div class="chart-container"><canvas id="attOfferingChart"></canvas></div></div></div><div class="glass-card"><div class="card-header"><h3><i class="fas fa-chart-radar"></i> Ministry Performance Matrix</h3></div><div class="chart-container" style="height: 350px;"><canvas id="attRadarChart"></canvas></div></div></div><div id="meetingDashboard" class="dashboard-container"><div class="filter-bar"><div class="filter-group"><label><i class="fas fa-calendar"></i> Year</label><select id="meetYearFilter" class="filter-select"><option value="all">All Years</option></select></div><div class="filter-group"><label><i class="fas fa-calendar-alt"></i> Month</label><select id="meetMonthFilter" class="filter-select"><option value="all">All Months</option></select></div><div class="filter-group"><label><i class="fas fa-users"></i> Committee</label><select id="meetCommitteeFilter" class="filter-select"><option value="all">All Committees</option></select></div><button class="btn-reset" onclick="resetMeetingFilters()"><i class="fas fa-undo"></i> Reset</button></div><div class="kpi-grid" id="meetingKPI"></div><div class="chart-grid"><div class="glass-card"><div class="card-header"><h3><i class="fas fa-chart-bar"></i> Meetings by Committee</h3></div><div class="chart-container"><canvas id="meetCommitteeChart"></canvas></div></div><div class="glass-card"><div class="card-header"><h3><i class="fas fa-chart-pie"></i> Meeting Gender Distribution</h3></div><div class="chart-container"><canvas id="meetGenderChart"></canvas></div></div></div><div class="chart-grid"><div class="glass-card"><div class="card-header"><h3><i class="fas fa-chart-line"></i> Monthly Meeting Trends</h3></div><div class="chart-container"><canvas id="meetMonthlyChart"></canvas></div></div><div class="glass-card"><div class="card-header"><h3><i class="fas fa-chart-line"></i> Meeting Attendance Trends</h3></div><div class="chart-container"><canvas id="meetAttendanceChart"></canvas></div></div></div><div class="glass-card"><div class="card-header"><h3><i class="fas fa-chart-radar"></i> Committee Engagement Matrix</h3></div><div class="chart-container" style="height: 350px;"><canvas id="meetRadarChart"></canvas></div></div></div></div>
+        <div id="analyticsTab" class="tab-content"><div class="glass-card"><div class="card-header"><h3>Comparative Analytics</h3></div><div class="chart-grid"><div class="glass-card"><div class="card-header"><h3>Attendance vs Meetings Trend</h3></div><div class="chart-container"><canvas id="compareTrendChart"></canvas></div></div><div class="glass-card"><div class="card-header"><h3>Event Distribution</h3></div><div class="chart-container"><canvas id="eventDistributionChart"></canvas></div></div></div></div></div>
+        <div id="archiveTab" class="tab-content"><div class="glass-card"><div class="card-header"><h3>Records Archive</h3><div><button class="btn-secondary" onclick="exportAllData()"><i class="fas fa-download"></i> Export CSV</button></div></div><div class="filter-bar" style="margin: 0 20px 20px 20px; background: rgba(0,0,0,0.3);"><div class="filter-group"><label><i class="fas fa-calendar"></i> Year</label><select id="archiveYearFilter" class="filter-select"><option value="all">All Years</option></select></div><div class="filter-group"><label><i class="fas fa-calendar-alt"></i> Month</label><select id="archiveMonthFilter" class="filter-select"><option value="all">All Months</option></select></div><div class="filter-group"><label><i class="fas fa-tag"></i> Record Type</label><select id="archiveTypeFilter" class="filter-select"><option value="all">All Types</option><option value="attendance">Attendance</option><option value="meeting">Meeting</option></select></div><button class="btn-reset" onclick="resetArchiveFilters()"><i class="fas fa-undo"></i> Reset</button></div><div class="data-table-wrapper"><table><thead><tr><th>Date</th><th>Type</th><th>Name</th><th>M</th><th>F</th><th>Total</th><th>Details</th></tr></thead><tbody id="archiveTableBody"></tbody></table></div></div></div>
+        <div id="insightsTab" class="tab-content"><div class="glass-card"><div class="card-header"><h3>Smart Insights</h3><i class="fas fa-brain"></i></div><div class="insight-grid"><div class="insight-card"><h4>Attendance Intelligence</h4><div id="attendanceInsight"></div></div><div class="insight-card"><h4>Meeting Analytics</h4><div id="meetingInsight"></div></div><div class="insight-card"><h4>Key Recommendations</h4><div id="recommendationsInsight"></div></div></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div id="toast" class="toast"></div>
+</div>
 
 <script>
-  // Register Chart.js plugin
   Chart.register(ChartDataLabels);
-  Chart.defaults.set('plugins.datalabels', { 
-    color: '#ffd700', 
-    anchor: 'end', 
-    align: 'top', 
-    font: { weight: 'bold', size: 10 } 
+  const VALID_USERNAME = "MPAC";
+  const VALID_PASSWORD = "MPAC#2026";
+  
+  // Authentication
+  function authenticate(username, password) { return username === VALID_USERNAME && password === VALID_PASSWORD; }
+  function showDashboard() {
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('dashboardWrapper').classList.add('visible');
+    initializeFullApp();
+  }
+  
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const errorDiv = document.getElementById('loginError');
+    if (authenticate(username, password)) { errorDiv.style.display = 'none'; showDashboard(); } 
+    else { errorDiv.style.display = 'flex'; setTimeout(() => errorDiv.style.display = 'none', 2000); }
   });
-
-  // ==================== GOOGLE SHEETS SYNC CONFIG ====================
-  let WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbybZg7o3EOqi5jdbuFBvxirFSrRb8FTE4NpUV4GAxbZkA8qq1Ily1ZuvxWi_peJXMjVBg/exec";
-
-  let allAttendance = [];
-  let allMeetings = [];
-  let charts = {};
-
-  // Your existing ministryMap and allMinistriesList remain the same
-  const ministryMap = { 
-    sundaySchool: { maleId:"ssMale", femaleId:"ssFemale", title:"Sunday School", showTopic:true, showOffering:true },
-    ladies: { maleId:"lfMale", femaleId:"lfFemale", title:"Ladies Fellowship", showTopic:true, showOffering:true },
-    men: { maleId:"mfMale", femaleId:"mfFemale", title:"Men's Fellowship", showTopic:true, showOffering:true },
-    youth: { maleId:"yfMale", femaleId:"yfFemale", title:"Youth Fellowship", showTopic:true, showOffering:true },
-    wednesday: { maleId:"wpMale", femaleId:"wpFemale", title:"Wednesday Prayer", showTopic:true, showOffering:true },
-    sunday: { maleId:"sunMale", femaleId:"sunFemale", title:"Sunday Service", showTopic:true, showOffering:true },
-    visitors: { maleId:"visitorsMale", femaleId:"visitorsFemale", title:"Visitors", showTopic:false, showOffering:true },
-    bibleStudy: { maleId:"bibleStudyMale", femaleId:"bibleStudyFemale", title:"Bible Study", showTopic:true, showOffering:false },
-    couples: { maleId:"couplesMale", femaleId:"couplesFemale", title:"Couples Fellowship", showTopic:true, showOffering:true },
-    singleParents: { maleId:"singleParentsMale", femaleId:"singleParentsFemale", title:"Single Parents", showTopic:true, showOffering:true }
-  };
-
-  const allMinistriesList = ['Sunday School', 'Ladies Fellowship', 'Men\'s Fellowship', 'Youth Fellowship', 'Wednesday Prayer', 'Sunday Service', 'Visitors / Guests', 'Bible Study', 'Couples Fellowship', 'Single Parents'];
-
-  // ==================== UTILITIES ====================
-  function showToast(msg) { 
-    let t = document.getElementById("toastMsg"); 
-    t.innerText = msg; 
-    t.style.display = "block"; 
-    setTimeout(() => t.style.display = "none", 2800); 
+  
+  // FULL APPLICATION LOGIC
+  const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbx45PfpqDnKLXuJrN7AT7RYQsBUUwj2FHMb9KTsPt7xSuxqKOy6JGGFuf19DhlIMxGnjg/exec";
+  let attendanceData = [], meetingData = [], charts = {};
+  let attFilters = { year: 'all', month: 'all', ministry: 'all' };
+  let meetFilters = { year: 'all', month: 'all', committee: 'all' };
+  let archiveFilters = { year: 'all', month: 'all', type: 'all' };
+  let currentDashboard = 'attendance';
+  let isSavingAttendance = false;
+  let isSavingMeeting = false;
+  
+  function showToast(msg, isErr = false) { const t = document.getElementById('toast'); t.textContent = msg; t.style.display = 'block'; t.style.background = isErr ? '#b22234' : '#ffd700'; t.style.color = isErr ? 'white' : '#003366'; setTimeout(() => t.style.display = 'none', 3000); }
+  
+  async function pullData() { try { const response = await fetch(`${WEBHOOK_URL}?action=pull&t=${Date.now()}`); const data = await response.json(); if (data.status === 'success') { attendanceData = data.attendance || []; meetingData = data.meetings || []; document.getElementById('recordCount').textContent = attendanceData.length + meetingData.length; document.getElementById('syncStatus').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> ● Live'; updateAll(); } else throw new Error(data.message); } catch (error) { document.getElementById('syncStatus').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> ○ Offline'; showToast('Failed to sync', true); loadLocalBackup(); } }
+  function saveLocalBackup() { localStorage.setItem('mpac_attendance_backup', JSON.stringify(attendanceData)); localStorage.setItem('mpac_meetings_backup', JSON.stringify(meetingData)); }
+  function loadLocalBackup() { const a = localStorage.getItem('mpac_attendance_backup'); const m = localStorage.getItem('mpac_meetings_backup'); if (a) attendanceData = JSON.parse(a); if (m) meetingData = JSON.parse(m); document.getElementById('recordCount').textContent = attendanceData.length + meetingData.length; updateAll(); }
+  
+  async function pushAttendanceRecord(record) { try { await fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: 'push', type: 'attendance', data: record }) }); return true; } catch(e) { return false; } }
+  async function pushMeetingRecord(record) { try { await fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: 'push', type: 'meeting', data: record }) }); return true; } catch(e) { return false; } }
+  
+  function filterAttendanceData() { return attendanceData.filter(r => { const d = new Date(r.date); return (attFilters.year === 'all' || d.getFullYear() == attFilters.year) && (attFilters.month === 'all' || d.getMonth() == attFilters.month) && (attFilters.ministry === 'all' || r.activityName === attFilters.ministry); }); }
+  function filterMeetingData() { return meetingData.filter(r => { const d = new Date(r.date); return (meetFilters.year === 'all' || d.getFullYear() == meetFilters.year) && (meetFilters.month === 'all' || d.getMonth() == meetFilters.month) && (meetFilters.committee === 'all' || r.activityName === meetFilters.committee); }); }
+  
+  function setAttendanceButtonLoading(isLoading) {
+    const btn = document.getElementById('saveAttendanceBtn');
+    if (!btn) return;
+    btn.disabled = isLoading;
+    if (isLoading) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...'; } 
+    else { btn.innerHTML = '<i class="fas fa-save"></i> Save Attendance Record'; }
   }
-
-  // ==================== SYNC FUNCTION (Aligned with your Apps Script) ====================
-  async function autoSyncRemote(data, type) {
-    const payload = {
-      type: type,
-      data: data,
-      timestamp: new Date().toISOString()
-    };
-
-    console.log(`🔄 Sending ${type} to Google Sheets...`, payload);
-
-    try {
-      const response = await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-
-      console.log(`✅ ${type} sync request sent`);
-      showToast(`✅ ${type} saved to Google Sheet`);
-    } catch (err) {
-      console.error(`❌ Sync failed for ${type}:`, err);
-      showToast(`⚠️ Failed to sync ${type}`);
-    }
+  
+  function setMeetingButtonLoading(isLoading) {
+    const btn = document.getElementById('saveMeetingBtn');
+    if (!btn) return;
+    btn.disabled = isLoading;
+    if (isLoading) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...'; } 
+    else { btn.innerHTML = '<i class="fas fa-save"></i> Save Meeting Record'; }
   }
-
-  // ==================== Your existing IndexedDB, loadAllData, render functions, etc. remain the same ====================
-  // (Keep all your existing code for IndexedDB, renderAttendanceDashboard, renderOfferingDashboard, etc.)
-
-  // Update the form submit handlers to use the new sync function
-  async function saveAttendance(data) {
-    await autoSyncRemote(data, "attendance");
-    // Your existing local storage logic
-    await addItem("attendance", data);
-    await loadAllData();
-    await refreshAllDashboards();
-    await renderDataTables();
-    await renderRecent();
+  
+  function updateAttendanceDashboard() { const filtered = filterAttendanceData(); const totalPeople = filtered.reduce((s, r) => s + (r.male + r.female), 0); const totalMale = filtered.reduce((s, r) => s + (r.male || 0), 0); const totalFemale = filtered.reduce((s, r) => s + (r.female || 0), 0); const totalOfferings = filtered.reduce((s, r) => s + (r.offering || 0), 0); const avgAttendance = filtered.length ? Math.round(totalPeople / filtered.length) : 0; document.getElementById('attendanceKPI').innerHTML = `<div class="kpi-box"><div class="kpi-icon"><i class="fas fa-users"></i></div><span class="kpi-val">${totalPeople}</span><div>Total People</div></div><div class="kpi-box"><div class="kpi-icon"><i class="fas fa-male"></i></div><span class="kpi-val">${totalMale}</span><div>Male</div></div><div class="kpi-box"><div class="kpi-icon"><i class="fas fa-female"></i></div><span class="kpi-val">${totalFemale}</span><div>Female</div></div><div class="kpi-box"><div class="kpi-icon"><i class="fas fa-calendar-alt"></i></div><span class="kpi-val">${filtered.length}</span><div>Events</div></div><div class="kpi-box"><div class="kpi-icon"><i class="fas fa-chart-line"></i></div><span class="kpi-val">${avgAttendance}</span><div>Avg/Session</div></div><div class="kpi-box"><div class="kpi-icon"><i class="fas fa-money-bill-wave"></i></div><span class="kpi-val">SZL ${totalOfferings.toLocaleString()}</span><div>Offerings</div></div>`; renderAttMinistryChart(filtered); renderAttGenderChart(filtered); renderAttMonthlyChart(filtered); renderAttOfferingChart(filtered); renderAttRadarChart(filtered); }
+  function renderAttMinistryChart(data) { const ctx = document.getElementById('attMinistryChart'); if(!ctx) return; const totals = {}; data.forEach(r => { totals[r.activityName] = (totals[r.activityName] || 0) + (r.male + r.female); }); if(charts.attMinistry) charts.attMinistry.destroy(); charts.attMinistry = new Chart(ctx, { type: 'bar', data: { labels: Object.keys(totals), datasets: [{ data: Object.values(totals), backgroundColor: '#ffd700', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } }, datalabels: { display: false } }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff' } } } } }); }
+  function renderAttGenderChart(data) { const ctx = document.getElementById('attGenderChart'); if(!ctx) return; const male = data.reduce((s, r) => s + (r.male || 0), 0); const female = data.reduce((s, r) => s + (r.female || 0), 0); if(charts.attGender) charts.attGender.destroy(); charts.attGender = new Chart(ctx, { type: 'doughnut', data: { labels: ['Male', 'Female'], datasets: [{ data: [male, female], backgroundColor: ['#b22234', '#003366'], borderColor: '#ffd700', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } } } }); }
+  function renderAttMonthlyChart(data) { const ctx = document.getElementById('attMonthlyChart'); if(!ctx) return; const monthly = {}; data.forEach(r => { const m = new Date(r.date).toLocaleString('default', { month: 'short', year: 'numeric' }); monthly[m] = (monthly[m] || 0) + (r.male + r.female); }); if(charts.attMonthly) charts.attMonthly.destroy(); charts.attMonthly = new Chart(ctx, { type: 'line', data: { labels: Object.keys(monthly), datasets: [{ data: Object.values(monthly), borderColor: '#ffd700', backgroundColor: 'rgba(255,215,0,0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff', maxRotation: 45 } } } } }); }
+  function renderAttOfferingChart(data) { const ctx = document.getElementById('attOfferingChart'); if(!ctx) return; const monthly = {}; data.forEach(r => { const m = new Date(r.date).toLocaleString('default', { month: 'short', year: 'numeric' }); monthly[m] = (monthly[m] || 0) + (r.offering || 0); }); if(charts.attOffering) charts.attOffering.destroy(); charts.attOffering = new Chart(ctx, { type: 'line', data: { labels: Object.keys(monthly), datasets: [{ data: Object.values(monthly), borderColor: '#ffd700', backgroundColor: 'rgba(255,215,0,0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff', maxRotation: 45 } } } } }); }
+  function renderAttRadarChart(data) { const ctx = document.getElementById('attRadarChart'); if(!ctx) return; const perf = {}; data.forEach(r => { if(!perf[r.activityName]) perf[r.activityName] = { total: 0, count: 0 }; perf[r.activityName].total += (r.male + r.female); perf[r.activityName].count++; }); const labels = Object.keys(perf); const averages = labels.map(l => Math.round(perf[l].total / perf[l].count)); if(charts.attRadar) charts.attRadar.destroy(); charts.attRadar = new Chart(ctx, { type: 'radar', data: { labels, datasets: [{ label: 'Avg Attendance', data: averages, backgroundColor: 'rgba(255,215,0,0.2)', borderColor: '#ffd700', pointBackgroundColor: '#ffd700' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } }, scales: { r: { ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } } } } }); }
+  function updateMeetingDashboard() { const filtered = filterMeetingData(); const totalPeople = filtered.reduce((s, r) => s + (r.male + r.female), 0); const totalMale = filtered.reduce((s, r) => s + (r.male || 0), 0); const totalFemale = filtered.reduce((s, r) => s + (r.female || 0), 0); const avgAttendance = filtered.length ? Math.round(totalPeople / filtered.length) : 0; document.getElementById('meetingKPI').innerHTML = `<div class="kpi-box"><div class="kpi-icon"><i class="fas fa-users"></i></div><span class="kpi-val">${totalPeople}</span><div>Total Attendees</div></div><div class="kpi-box"><div class="kpi-icon"><i class="fas fa-male"></i></div><span class="kpi-val">${totalMale}</span><div>Male</div></div><div class="kpi-box"><div class="kpi-icon"><i class="fas fa-female"></i></div><span class="kpi-val">${totalFemale}</span><div>Female</div></div><div class="kpi-box"><div class="kpi-icon"><i class="fas fa-calendar-alt"></i></div><span class="kpi-val">${filtered.length}</span><div>Total Meetings</div></div><div class="kpi-box"><div class="kpi-icon"><i class="fas fa-chart-line"></i></div><span class="kpi-val">${avgAttendance}</span><div>Avg/Meeting</div></div>`; renderMeetCommitteeChart(filtered); renderMeetGenderChart(filtered); renderMeetMonthlyChart(filtered); renderMeetAttendanceChart(filtered); renderMeetRadarChart(filtered); }
+  function renderMeetCommitteeChart(data) { const ctx = document.getElementById('meetCommitteeChart'); if(!ctx) return; const committees = {}; data.forEach(m => { committees[m.activityName] = (committees[m.activityName] || 0) + 1; }); if(charts.meetCommittee) charts.meetCommittee.destroy(); charts.meetCommittee = new Chart(ctx, { type: 'bar', data: { labels: Object.keys(committees), datasets: [{ data: Object.values(committees), backgroundColor: '#ffd700', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff' } } } } }); }
+  function renderMeetGenderChart(data) { const ctx = document.getElementById('meetGenderChart'); if(!ctx) return; const male = data.reduce((s, r) => s + (r.male || 0), 0); const female = data.reduce((s, r) => s + (r.female || 0), 0); if(charts.meetGender) charts.meetGender.destroy(); charts.meetGender = new Chart(ctx, { type: 'doughnut', data: { labels: ['Male', 'Female'], datasets: [{ data: [male, female], backgroundColor: ['#b22234', '#003366'], borderColor: '#ffd700', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } } } }); }
+  function renderMeetMonthlyChart(data) { const ctx = document.getElementById('meetMonthlyChart'); if(!ctx) return; const monthly = {}; data.forEach(r => { const m = new Date(r.date).toLocaleString('default', { month: 'short', year: 'numeric' }); monthly[m] = (monthly[m] || 0) + 1; }); if(charts.meetMonthly) charts.meetMonthly.destroy(); charts.meetMonthly = new Chart(ctx, { type: 'line', data: { labels: Object.keys(monthly), datasets: [{ data: Object.values(monthly), borderColor: '#ffd700', backgroundColor: 'rgba(255,215,0,0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff', maxRotation: 45 } } } } }); }
+  function renderMeetAttendanceChart(data) { const ctx = document.getElementById('meetAttendanceChart'); if(!ctx) return; const monthly = {}; data.forEach(r => { const m = new Date(r.date).toLocaleString('default', { month: 'short', year: 'numeric' }); monthly[m] = (monthly[m] || 0) + (r.male + r.female); }); if(charts.meetAttendance) charts.meetAttendance.destroy(); charts.meetAttendance = new Chart(ctx, { type: 'line', data: { labels: Object.keys(monthly), datasets: [{ data: Object.values(monthly), borderColor: '#ffd700', backgroundColor: 'rgba(255,215,0,0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff', maxRotation: 45 } } } } }); }
+  function renderMeetRadarChart(data) { const ctx = document.getElementById('meetRadarChart'); if(!ctx) return; const perf = {}; data.forEach(r => { if(!perf[r.activityName]) perf[r.activityName] = { total: 0, count: 0 }; perf[r.activityName].total += (r.male + r.female); perf[r.activityName].count++; }); const labels = Object.keys(perf); const averages = labels.map(l => Math.round(perf[l].total / perf[l].count)); if(charts.meetRadar) charts.meetRadar.destroy(); charts.meetRadar = new Chart(ctx, { type: 'radar', data: { labels, datasets: [{ label: 'Avg Attendance', data: averages, backgroundColor: 'rgba(255,215,0,0.2)', borderColor: '#ffd700', pointBackgroundColor: '#ffd700' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } }, scales: { r: { ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } } } } }); }
+  function updateComparativeAnalytics() { const attFiltered = filterAttendanceData(); const meetFiltered = filterMeetingData(); const monthlyAtt = {}; const monthlyMeet = {}; attFiltered.forEach(r => { const m = new Date(r.date).toLocaleString('default', { month: 'short', year: 'numeric' }); monthlyAtt[m] = (monthlyAtt[m] || 0) + (r.male + r.female); }); meetFiltered.forEach(r => { const m = new Date(r.date).toLocaleString('default', { month: 'short', year: 'numeric' }); monthlyMeet[m] = (monthlyMeet[m] || 0) + (r.male + r.female); }); const allMonths = [...new Set([...Object.keys(monthlyAtt), ...Object.keys(monthlyMeet)])].sort(); const ctx = document.getElementById('compareTrendChart'); if(ctx) { if(charts.compare) charts.compare.destroy(); charts.compare = new Chart(ctx, { type: 'line', data: { labels: allMonths, datasets: [{ label: 'Attendance', data: allMonths.map(m => monthlyAtt[m] || 0), borderColor: '#b22234', backgroundColor: 'rgba(178,34,52,0.1)', fill: true, tension: 0.4 }, { label: 'Meetings', data: allMonths.map(m => monthlyMeet[m] || 0), borderColor: '#ffd700', backgroundColor: 'rgba(255,215,0,0.1)', fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } }, datalabels: { display: false } }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff', maxRotation: 45 } } } } }); } const distCtx = document.getElementById('eventDistributionChart'); if(distCtx) { if(charts.distribution) charts.distribution.destroy(); charts.distribution = new Chart(distCtx, { type: 'pie', data: { labels: ['Attendance Events', 'Meeting Events'], datasets: [{ data: [attFiltered.length, meetFiltered.length], backgroundColor: ['#b22234', '#003366'], borderColor: '#ffd700', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#fff' } } } } }); } }
+  function updateArchive() { let records = [...attendanceData.map(r => ({ ...r, type: 'attendance' })), ...meetingData.map(r => ({ ...r, type: 'meeting' }))]; records = records.filter(r => { const d = new Date(r.date); return (archiveFilters.year === 'all' || d.getFullYear() == archiveFilters.year) && (archiveFilters.month === 'all' || d.getMonth() == archiveFilters.month) && (archiveFilters.type === 'all' || r.type === archiveFilters.type); }).sort((a, b) => new Date(b.date) - new Date(a.date)); const tbody = document.getElementById('archiveTableBody'); if(!records.length) { tbody.innerHTML = '<tr><td colspan="7">No records</td></tr>'; return; } tbody.innerHTML = records.map(r => `<tr><td>${r.date}</td><td><span class="record-badge ${r.type === 'attendance' ? 'badge-attendance' : 'badge-meeting'}">${r.type === 'attendance' ? '📊 Attendance' : '📋 Meeting'}</span></td><td>${r.activityName}</td><td>${r.male || 0}</td><td>${r.female || 0}</td><td><strong>${(r.male || 0) + (r.female || 0)}</strong></td><td>${r.type === 'attendance' ? (r.topic || '-') : (r.outcomes || r.agenda || '-')}</td></tr>`).join(''); }
+  function updateInsights() { const totalAttPeople = attendanceData.reduce((s, r) => s + (r.male + r.female), 0); const totalMeetPeople = meetingData.reduce((s, r) => s + (r.male + r.female), 0); const avgAtt = attendanceData.length ? Math.round(totalAttPeople / attendanceData.length) : 0; const avgMeet = meetingData.length ? Math.round(totalMeetPeople / meetingData.length) : 0; const ministries = {}; attendanceData.forEach(r => { ministries[r.activityName] = (ministries[r.activityName] || 0) + (r.male + r.female); }); const topMinistry = Object.entries(ministries).sort((a, b) => b[1] - a[1])[0]; const committees = {}; meetingData.forEach(r => { committees[r.activityName] = (committees[r.activityName] || 0) + 1; }); const topCommittee = Object.entries(committees).sort((a, b) => b[1] - a[1])[0]; document.getElementById('attendanceInsight').innerHTML = `<div class="insight-stat">${totalAttPeople} People</div><p>📊 ${attendanceData.length} events | Avg ${avgAtt}/session</p><p>🏆 Top Ministry: <strong>${topMinistry ? topMinistry[0] : 'N/A'}</strong> (${topMinistry ? topMinistry[1] : 0})</p><p>💰 Total Offerings: SZL ${attendanceData.reduce((s, r) => s + (r.offering || 0), 0).toLocaleString()}</p>`; document.getElementById('meetingInsight').innerHTML = `<div class="insight-stat">${meetingData.length} Meetings</div><p>👥 ${totalMeetPeople} total attendees</p><p>📋 Most Active: <strong>${topCommittee ? topCommittee[0] : 'N/A'}</strong> (${topCommittee ? topCommittee[1] : 0} meetings)</p><p>📊 Avg attendance: ${avgMeet} per meeting</p>`; let recs = []; if(!attendanceData.length) recs.push("📊 Start recording attendance data"); if(!meetingData.length) recs.push("📝 Record committee meetings"); if(avgAtt < 20 && attendanceData.length) recs.push("📢 Launch outreach programs to boost attendance"); if(topMinistry) recs.push(`🎯 Leverage success of ${topMinistry[0]} as a model for other ministries`); if(topCommittee) recs.push(`💡 Share best practices from ${topCommittee[0]} with other committees`); if(recs.length === 0) recs.push("✅ All metrics excellent! Continue the great work!"); document.getElementById('recommendationsInsight').innerHTML = recs.map(r => `<p>${r}</p>`).join(''); }
+  function populateFilters() { const attYears = [...new Set(attendanceData.map(r => new Date(r.date).getFullYear()))].sort(); const meetYears = [...new Set(meetingData.map(r => new Date(r.date).getFullYear()))].sort(); const ministries = [...new Set(attendanceData.map(r => r.activityName))]; const committees = [...new Set(meetingData.map(r => r.activityName))]; const allYears = [...new Set([...attYears, ...meetYears])].sort(); const attYearSelect = document.getElementById('attYearFilter'); if(attYearSelect) attYearSelect.innerHTML = '<option value="all">All Years</option>' + attYears.map(y => `<option value="${y}">${y}</option>`).join(''); const meetYearSelect = document.getElementById('meetYearFilter'); if(meetYearSelect) meetYearSelect.innerHTML = '<option value="all">All Years</option>' + meetYears.map(y => `<option value="${y}">${y}</option>`).join(''); const archiveYearSelect = document.getElementById('archiveYearFilter'); if(archiveYearSelect) archiveYearSelect.innerHTML = '<option value="all">All Years</option>' + allYears.map(y => `<option value="${y}">${y}</option>`).join(''); const attMinistrySelect = document.getElementById('attMinistryFilter'); if(attMinistrySelect) attMinistrySelect.innerHTML = '<option value="all">All Ministries</option>' + ministries.map(m => `<option value="${m}">${m}</option>`).join(''); const meetCommitteeSelect = document.getElementById('meetCommitteeFilter'); if(meetCommitteeSelect) meetCommitteeSelect.innerHTML = '<option value="all">All Committees</option>' + committees.map(c => `<option value="${c}">${c}</option>`).join(''); const months = ['January','February','March','April','May','June','July','August','September','October','November','December']; months.forEach((m, i) => { ['attMonthFilter', 'meetMonthFilter', 'archiveMonthFilter'].forEach(id => { const sel = document.getElementById(id); if(sel && !sel.querySelector(`option[value="${i}"]`)) { sel.innerHTML += `<option value="${i}">${m}</option>`; } }); }); }
+  function filterAttendanceDashboard() { attFilters.year = document.getElementById('attYearFilter').value; attFilters.month = document.getElementById('attMonthFilter').value; attFilters.ministry = document.getElementById('attMinistryFilter').value; updateAttendanceDashboard(); }
+  function resetAttendanceFilters() { document.getElementById('attYearFilter').value = 'all'; document.getElementById('attMonthFilter').value = 'all'; document.getElementById('attMinistryFilter').value = 'all'; filterAttendanceDashboard(); }
+  function filterMeetingDashboard() { meetFilters.year = document.getElementById('meetYearFilter').value; meetFilters.month = document.getElementById('meetMonthFilter').value; meetFilters.committee = document.getElementById('meetCommitteeFilter').value; updateMeetingDashboard(); }
+  function resetMeetingFilters() { document.getElementById('meetYearFilter').value = 'all'; document.getElementById('meetMonthFilter').value = 'all'; document.getElementById('meetCommitteeFilter').value = 'all'; filterMeetingDashboard(); }
+  function filterArchive() { archiveFilters.year = document.getElementById('archiveYearFilter').value; archiveFilters.month = document.getElementById('archiveMonthFilter').value; archiveFilters.type = document.getElementById('archiveTypeFilter').value; updateArchive(); }
+  function resetArchiveFilters() { document.getElementById('archiveYearFilter').value = 'all'; document.getElementById('archiveMonthFilter').value = 'all'; document.getElementById('archiveTypeFilter').value = 'all'; filterArchive(); }
+  function showDashboardType(type) { currentDashboard = type; const attDash = document.getElementById('attendanceDashboard'); const meetDash = document.getElementById('meetingDashboard'); const attBtn = document.getElementById('attendanceDashBtn'); const meetBtn = document.getElementById('meetingDashBtn'); if(type === 'attendance') { attDash.classList.add('active'); meetDash.classList.remove('active'); attBtn.classList.add('active'); meetBtn.classList.remove('active'); updateAttendanceDashboard(); } else { attDash.classList.remove('active'); meetDash.classList.add('active'); attBtn.classList.remove('active'); meetBtn.classList.add('active'); updateMeetingDashboard(); } }
+  function updateAll() { updateAttendanceDashboard(); updateMeetingDashboard(); updateComparativeAnalytics(); updateArchive(); updateInsights(); populateFilters(); saveLocalBackup(); }
+  function exportAllData() { const all = [...attendanceData.map(r => ({ ...r, type: 'attendance' })), ...meetingData.map(r => ({ ...r, type: 'meeting' }))]; if(!all.length) { showToast('No data', true); return; } const headers = ['Date', 'Type', 'Name', 'Male', 'Female', 'Total', 'Details']; const rows = all.map(r => [r.date, r.type === 'attendance' ? 'Attendance' : 'Meeting', r.activityName, r.male || 0, r.female || 0, (r.male || 0) + (r.female || 0), r.type === 'attendance' ? (r.topic || '') : (r.outcomes || r.agenda || '')]); const csv = [headers, ...rows].map(row => row.map(c => `"${c}"`).join(',')).join('\n'); const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `mpac_data_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(url); showToast('📁 Exported!'); }
+  function handleMinistryChange() { const ministry = document.getElementById('ministrySelect').value; const topicGroup = document.getElementById('topicGroup'); const offeringGroup = document.getElementById('offeringGroup'); if(ministry === 'Visitors / Guests') { topicGroup.style.display = 'none'; offeringGroup.style.display = 'none'; } else { topicGroup.style.display = 'block'; offeringGroup.style.display = 'block'; } }
+  function showRecordType(type) { const attContainer = document.getElementById('attendanceContainer'); const meetContainer = document.getElementById('meetingContainer'); const attBtn = document.getElementById('attendanceToggleBtn'); const meetBtn = document.getElementById('meetingToggleBtn'); if(type === 'attendance') { attContainer.style.display = 'block'; meetContainer.style.display = 'none'; attBtn.classList.add('active'); meetBtn.classList.remove('active'); } else { attContainer.style.display = 'none'; meetContainer.style.display = 'block'; attBtn.classList.remove('active'); meetBtn.classList.add('active'); } }
+  function showTab(tabName) { document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active')); document.getElementById(tabName + 'Tab').classList.add('active'); document.querySelectorAll('.nav-pill').forEach(btn => btn.classList.remove('active')); const buttons = document.querySelectorAll('.nav-pill'); const tabMap = { record: 0, dashboard: 1, analytics: 2, archive: 3, insights: 4 }; if(buttons[tabMap[tabName]]) buttons[tabMap[tabName]].classList.add('active'); if(tabName === 'dashboard') { if(currentDashboard === 'attendance') updateAttendanceDashboard(); else updateMeetingDashboard(); } else if(tabName === 'analytics') { updateComparativeAnalytics(); } }
+  
+  function initializeFullApp() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('attDate').value = today;
+    document.getElementById('meetingDate').value = today;
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    
+    // Attendance form with proper button disabling
+    document.getElementById('attendanceForm').addEventListener('submit', async(e) => { 
+      e.preventDefault(); 
+      if (isSavingAttendance) { showToast('Please wait, saving in progress...', true); return; }
+      const ministry = document.getElementById('ministrySelect').value; 
+      if(!ministry) { showToast('Select a ministry', true); return; } 
+      isSavingAttendance = true;
+      setAttendanceButtonLoading(true);
+      try {
+        const newRecord = { date: document.getElementById('attDate').value, activityName: ministry, topic: document.getElementById('topic').value || '', male: parseInt(document.getElementById('maleCount').value) || 0, female: parseInt(document.getElementById('femaleCount').value) || 0, offering: parseFloat(document.getElementById('offering').value) || 0 }; 
+        const success = await pushAttendanceRecord(newRecord); 
+        if (!success) { attendanceData.push({ ...newRecord, id: Date.now() }); saveLocalBackup(); showToast('⚠️ Saved locally', true); } 
+        else { showToast('✓ Attendance saved to cloud!'); }
+        await pullData(); 
+        document.getElementById('attendanceForm').reset(); 
+        document.getElementById('attDate').value = today; 
+        document.getElementById('maleCount').value = '0'; 
+        document.getElementById('femaleCount').value = '0'; 
+        document.getElementById('offering').value = '0'; 
+        document.getElementById('topic').value = '';
+      } catch(err) { showToast('Error saving', true); } 
+      finally { isSavingAttendance = false; setAttendanceButtonLoading(false); }
+    });
+    
+    // Meeting form with proper button disabling
+    document.getElementById('meetingForm').addEventListener('submit', async(e) => { 
+      e.preventDefault(); 
+      if (isSavingMeeting) { showToast('Please wait, saving in progress...', true); return; }
+      const type = document.getElementById('meetingType').value; 
+      if(!type) { showToast('Select a committee', true); return; } 
+      isSavingMeeting = true;
+      setMeetingButtonLoading(true);
+      try {
+        const newRecord = { date: document.getElementById('meetingDate').value, activityName: type, agenda: document.getElementById('meetingAgenda').value || '', outcomes: document.getElementById('meetingOutcomes').value || '', male: parseInt(document.getElementById('meetingMaleCount').value) || 0, female: parseInt(document.getElementById('meetingFemaleCount').value) || 0 }; 
+        const success = await pushMeetingRecord(newRecord); 
+        if (!success) { meetingData.push({ ...newRecord, id: Date.now() }); saveLocalBackup(); showToast('⚠️ Saved locally', true); } 
+        else { showToast('✓ Meeting saved to cloud!'); }
+        await pullData(); 
+        document.getElementById('meetingForm').reset(); 
+        document.getElementById('meetingDate').value = today; 
+        document.getElementById('meetingMaleCount').value = '0'; 
+        document.getElementById('meetingFemaleCount').value = '0'; 
+        document.getElementById('meetingAgenda').value = ''; 
+        document.getElementById('meetingOutcomes').value = '';
+      } catch(err) { showToast('Error saving', true); } 
+      finally { isSavingMeeting = false; setMeetingButtonLoading(false); }
+    });
+    
+    document.getElementById('attYearFilter').addEventListener('change', filterAttendanceDashboard);
+    document.getElementById('attMonthFilter').addEventListener('change', filterAttendanceDashboard);
+    document.getElementById('attMinistryFilter').addEventListener('change', filterAttendanceDashboard);
+    document.getElementById('meetYearFilter').addEventListener('change', filterMeetingDashboard);
+    document.getElementById('meetMonthFilter').addEventListener('change', filterMeetingDashboard);
+    document.getElementById('meetCommitteeFilter').addEventListener('change', filterMeetingDashboard);
+    document.getElementById('archiveYearFilter').addEventListener('change', filterArchive);
+    document.getElementById('archiveMonthFilter').addEventListener('change', filterArchive);
+    document.getElementById('archiveTypeFilter').addEventListener('change', filterArchive);
+    pullData();
+    setInterval(pullData, 30000);
+    handleMinistryChange();
   }
-
-  async function saveMeeting(data) {
-    await autoSyncRemote(data, "meeting");
-    await addItem("meetings", data);
-    await loadAllData();
-    await refreshAllDashboards();
-    await renderDataTables();
-    await renderRecent();
-  }
-
-  // Initialize
-  async function init() {
-    await openDB();
-    await loadAllData();
-    initFormHandlers();
-    initNavHandlers();
-    initButtonHandlers();
-    populateYearFilters();
-    document.getElementById("attDate").value = new Date().toISOString().slice(0,10);
-    document.getElementById("meetingDate").value = new Date().toISOString().slice(0,10);
-    await refreshAllDashboards();
-    await renderDataTables();
-    await renderRecent();
-    showToast("✨ MPAC DataHub Premium Ready");
-  }
-
-  init();
+  
+  window.showTab = showTab; window.showDashboardType = showDashboardType; window.showRecordType = showRecordType; window.handleMinistryChange = handleMinistryChange; window.exportAllData = exportAllData; window.resetAttendanceFilters = resetAttendanceFilters; window.resetMeetingFilters = resetMeetingFilters; window.resetArchiveFilters = resetArchiveFilters;
 </script>
 </body>
 </html>
